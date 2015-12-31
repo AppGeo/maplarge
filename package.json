@@ -1,0 +1,39 @@
+{
+  "name": "maplarge-google",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/AppGeo/appgeo_googlemaps.maplarge.git"
+  },
+  "author": "Calvin W. Metcalf <calvin.metcalf@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/AppGeo/appgeo_googlemaps.maplarge#readme",
+  "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.1.18",
+  "babel-preset-es2015": "^6.1.18",
+  "babelify": "^7.2.0",
+    "create-hash": "^1.1.2",
+    "sphericalmercator": "^1.0.4",
+    "zoku": "^1.1.1"
+  },
+  "browserify": {
+    "transform": [
+      [
+      "babelify",
+      {
+        "presets": [
+          "es2015"
+        ],
+        "plugins": [
+          "transform-object-rest-spread"
+        ]
+      }
+    ]
+    ]
+  }
+}
