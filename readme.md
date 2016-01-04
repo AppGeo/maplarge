@@ -97,5 +97,5 @@ Methods
 ===
 
 - `.setMap` pass it a map object to add it to a map or null to remove it
-- `.setQuery` pass in a maplarge query object to apply that filter to the layer
+- `.updateQuery` pass in a maplarge query object to apply that filter to the layer
 - `.getInfo` give it a lat, lng, and a zoom and it will give you the info of all the features that were clicked on, taking into account zoom and what not, returns a promise.
