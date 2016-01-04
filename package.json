@@ -3,14 +3,11 @@
   "version": "1.0.0-alpha.1",
   "description": "",
   "main": "lib",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@bitbucket.org/AppGeo/appgeo_googlemaps.maplarge.git"
   },
-  "author": "Calvin W. Metcalf <calvin.metcalf@gmail.com>",
+  "author": "Calvin W. Metcalf <cmetcalf@appgeo.com>",
   "license": "MIT",
   "homepage": "https://bitbucket.org/AppGeo/appgeo_googlemaps.maplarge#readme",
   "dependencies": {

@@ -3,6 +3,8 @@ maplarge google
 
 Google layer for working with maplarge
 
+Currently very rough, use at own risk
+
 example rules
 
 a simple rule set visible at all zoom levels
