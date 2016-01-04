@@ -90,11 +90,12 @@ The constructor takes several options, many of them mandatory
 - click: handler for click events, mandatory if you want interaction
 - fields: array of fields to return to the click function
 - refresh: how often to check if the data has been updated (and if so refresh the tiles), if absent then data is not refreshed.
-- sort: if a field should be used for sorting the features
+- sort: if a field should be used for sorting the features,
+- zindex: maintaining layer ordering when you have multiple maplarge layers
 
 Methods
 ===
 
 - `.setMap` pass it a map object to add it to a map or null to remove it
-- `.updateQuery` pass in a maplarge query object to apply that filter to the layer
+- `.setQuery` pass in a maplarge query object to apply that filter to the layer
 - `.getInfo` give it a lat, lng, and a zoom and it will give you the info of all the features that were clicked on, taking into account zoom and what not, returns a promise.
