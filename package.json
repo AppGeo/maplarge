@@ -2,16 +2,16 @@
   "name": "maplarge-google",
   "version": "1.0.0-alpha.2",
   "description": "Google layer for working with maplarge layers",
-  "main": "lib",
   "repository": "https://github.com/AppGeo/maplarge",
+  "homepage": "https://github.com/AppGeo/maplarge/blob/master/readme.md",
+  "author": "Calvin W. Metcalf <cmetcalf@appgeo.com>",
+  "license": "MIT",
+  "main": "lib",
   "scripts": {
     "build-js": "browserify -s maplarge . > dist/maplarge-google.js",
     "build-min": "uglifyjs dist/maplarge-google.js -mc > dist/maplarge-google.min.js",
     "build": "npm run build-js && npm run build-min"
   },
-  "author": "Calvin W. Metcalf <cmetcalf@appgeo.com>",
-  "license": "MIT",
-  "homepage": "https://bitbucket.org/AppGeo/appgeo_googlemaps.maplarge#readme",
   "dependencies": {
     "babel-plugin-add-module-exports": "^0.1.2",
     "babel-plugin-transform-object-rest-spread": "^6.1.18",
