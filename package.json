@@ -7,6 +7,11 @@
     "type": "git",
     "url": "git+ssh://git@bitbucket.org/AppGeo/appgeo_googlemaps.maplarge.git"
   },
+  "scripts": {
+    "build-js": "browserify -s maplarge . > dist/maplarge-google.js",
+    "build-min": "uglifyjs dist/maplarge-google.js -mc > dist/maplarge-google.min.js",
+    "build": "npm run build-js && npm run build-min"
+  },
   "author": "Calvin W. Metcalf <cmetcalf@appgeo.com>",
   "license": "MIT",
   "homepage": "https://bitbucket.org/AppGeo/appgeo_googlemaps.maplarge#readme",
@@ -34,5 +39,9 @@
         }
       ]
     ]
+  },
+  "devDependencies": {
+    "browserify": "^12.0.1",
+    "uglify-js": "^2.6.1"
   }
 }
