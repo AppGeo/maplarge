@@ -1,7 +1,7 @@
 maplarge google
 ===
 
-Google layer for working with maplarge
+Google layer for working with [maplarge](http://maplarge.com/) layers.
 
 Currently very rough, use at own risk
 
@@ -101,3 +101,4 @@ Methods
 - `.setMap` pass it a map object to add it to a map or null to remove it
 - `.updateQuery` pass in a maplarge query object to apply that filter to the layer
 - `.getInfo` give it a lat, lng, and a zoom and it will give you the info of all the features that were clicked on, taking into account zoom and what not, returns a promise.
+- `.query` give it a maplarge query object and it returns a promise for the result.
