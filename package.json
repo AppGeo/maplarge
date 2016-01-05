@@ -1,7 +1,7 @@
 {
   "name": "maplarge-google",
   "version": "1.0.0-alpha.2",
-  "description": "",
+  "description": "Google layer for working with maplarge layers",
   "main": "lib",
   "repository": "https://github.com/AppGeo/maplarge",
   "scripts": {
