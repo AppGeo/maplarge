@@ -1,9 +1,9 @@
 # maplarge-google
 
-[![npm version](https://badge.fury.io/js/maplarge-google.svg)](https://badge.fury.io/js/maplarge-google)
-
 Google layer for working with [maplarge](http://maplarge.com/) layers.
 Currently very rough, use at own risk.
+
+[![npm version](https://badge.fury.io/js/maplarge-google.svg)](https://badge.fury.io/js/maplarge-google)
 
 ```no-highlight
 npm install --save maplarge-google
