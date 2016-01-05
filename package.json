@@ -3,10 +3,7 @@
   "version": "1.0.0-alpha.2",
   "description": "",
   "main": "lib",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@bitbucket.org/AppGeo/appgeo_googlemaps.maplarge.git"
-  },
+  "repository": "https://github.com/AppGeo/maplarge",
   "scripts": {
     "build-js": "browserify -s maplarge . > dist/maplarge-google.js",
     "build-min": "uglifyjs dist/maplarge-google.js -mc > dist/maplarge-google.min.js",
