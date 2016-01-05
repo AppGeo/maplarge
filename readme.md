@@ -14,18 +14,18 @@ npm install --save maplarge-google
 
 The constructor takes several options, many of them mandatory
 
-- account
-- table
-- host
-- type: line or point (only needed if type can't be inferred from table name)
-- subdomains: number of different subdomains, since the domains are zero indexed this is one more then the max subdomain
-- minzoom: default 0
-- maxzoom: defualt 20
-- click: handler for click events, mandatory if you want interaction
-- fields: array of fields to return to the click function
-- refresh: how often to check if the data has been updated (and if so refresh the tiles), if absent then data is not refreshed.
-- sort: if a field should be used for sorting the features,
-- zindex: maintaining layer ordering when you have multiple maplarge layers
+- `account`
+- `table`
+- `host`
+- `type`: line or point (only needed if type can't be inferred from table name).
+- `subdomains`: number of different subdomains, since the domains are zero indexed this is one more then the max subdomain.
+- `minzoom`: default 0.
+- `maxzoom`: default 20.
+- `click`: handler for click events, mandatory if you want interaction.
+- `fields`: array of fields to return to the click function.
+- `refresh`: how often to check if the data has been updated (and if so refresh the tiles), if absent then data is not refreshed.
+- `sort`: if a field should be used for sorting the features.
+- `zindex`: maintaining layer ordering when you have multiple maplarge layers.
 
 ## Methods
 
