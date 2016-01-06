@@ -17,7 +17,7 @@ The constructor takes several options, many of them mandatory
 - `account`
 - `table`
 - `host`
-- `type`: line or point (only needed if type can't be inferred from table name).
+- `type`: line or point (only needed if type can't be inferred from table name, i.e. ending with `Line` or `Point` like `conditionLine`).
 - `subdomains`: number of different subdomains, since the domains are zero indexed this is one more then the max subdomain.
 - `minzoom`: default 0.
 - `maxzoom`: default 20.
