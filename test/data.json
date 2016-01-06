@@ -1,0 +1,207 @@
+{
+  "layer": {
+    "style": {
+      "method": "rules",
+      "rules": [
+        {
+          "style": {
+            "shape": "round",
+            "fillColor": "204-86-86-255",
+            "borderColorOffset": "75",
+            "text": {
+              "color": "255-255-255-255"
+            },
+            "dropShadow": "false",
+            "url": "https://storage.googleapis.com/drivetexas/symbology/contraflow18px.png"
+          },
+          "where": [
+            [
+              {
+                "col": "CNSTRNTTYPECD",
+                "test": "Equal",
+                "value": "Y"
+              }
+            ]
+          ]
+        },
+        {
+          "style": {
+            "shape": "round",
+            "fillColor": "204-86-86-255",
+            "borderColorOffset": "75",
+            "text": {
+              "color": "255-255-255-255"
+            },
+            "dropShadow": "false",
+            "url": "https://storage.googleapis.com/drivetexas/symbology/evaculane18px.png"
+          },
+          "where": [
+            [
+              {
+                "col": "CNSTRNTTYPECD",
+                "test": "Equal",
+                "value": "X"
+              }
+            ]
+          ]
+        },
+        {
+          "style": {
+            "shape": "round",
+            "fillColor": "204-86-86-255",
+            "borderColorOffset": "75",
+            "text": {
+              "color": "255-255-255-255"
+            },
+            "dropShadow": "false",
+            "url": "https://storage.googleapis.com/drivetexas/symbology/accident18px.png"
+          },
+          "where": [
+            [
+              {
+                "col": "CNSTRNTTYPECD",
+                "test": "Equal",
+                "value": "A"
+              }
+            ]
+          ]
+        },
+        {
+          "style": {
+            "shape": "round",
+            "fillColor": "204-86-86-255",
+            "borderColorOffset": "75",
+            "text": {
+              "color": "255-255-255-255"
+            },
+            "dropShadow": "false",
+            "url": "https://storage.googleapis.com/drivetexas/symbology/closed18px.png"
+          },
+          "where": [
+            [
+              {
+                "col": "CNSTRNTTYPECD",
+                "test": "Equal",
+                "value": "Z"
+              }
+            ]
+          ]
+        },
+        {
+          "style": {
+            "shape": "round",
+            "fillColor": "204-86-86-255",
+            "borderColorOffset": "75",
+            "text": {
+              "color": "255-255-255-255"
+            },
+            "dropShadow": "false",
+            "url": "https://storage.googleapis.com/drivetexas/symbology/other18px.png"
+          },
+          "where": [
+            [
+              {
+                "col": "CNSTRNTTYPECD",
+                "test": "Equal",
+                "value": "O"
+              }
+            ]
+          ]
+        },
+        {
+          "style": {
+            "shape": "round",
+            "fillColor": "204-86-86-255",
+            "borderColorOffset": "75",
+            "text": {
+              "color": "255-255-255-255"
+            },
+            "dropShadow": "false",
+            "url": "https://storage.googleapis.com/drivetexas/symbology/damage18px.png"
+          },
+          "where": [
+            [
+              {
+                "col": "CNSTRNTTYPECD",
+                "test": "Equal",
+                "value": "D"
+              }
+            ]
+          ]
+        },
+        {
+          "style": {
+            "shape": "round",
+            "fillColor": "204-86-86-255",
+            "borderColorOffset": "75",
+            "text": {
+              "color": "255-255-255-255"
+            },
+            "dropShadow": "false",
+            "url": "https://storage.googleapis.com/drivetexas/symbology/icesnow18px.png"
+          },
+          "where": [
+            [
+              {
+                "col": "CNSTRNTTYPECD",
+                "test": "Equal",
+                "value": "I"
+              }
+            ]
+          ]
+        },
+        {
+          "style": {
+            "shape": "round",
+            "fillColor": "204-86-86-255",
+            "borderColorOffset": "75",
+            "text": {
+              "color": "255-255-255-255"
+            },
+            "dropShadow": "false",
+            "url": "https://storage.googleapis.com/drivetexas/symbology/flooding18px.png"
+          },
+          "where": [
+            [
+              {
+                "col": "CNSTRNTTYPECD",
+                "test": "Equal",
+                "value": "F"
+              }
+            ]
+          ]
+        },
+        {
+          "style": {
+            "shape": "round",
+            "dropShadow": "false",
+            "url": "https://storage.googleapis.com/drivetexas/symbology/construction18px.png"
+          },
+          "where": [
+            [
+              {
+                "col": "CNSTRNTTYPECD",
+                "test": "Equal",
+                "value": "C"
+              }
+            ]
+          ]
+        }
+      ],
+      "orderBy": "sort.DESC"
+    },
+    "query": {
+      "select": {},
+      "table": {
+        "name": "appgeo/01042016_conditionpointtest/635875259672369433"
+      },
+      "where": [
+        {
+          "col": "CNSTRNTTYPECD",
+          "test": "ContainsNone",
+          "value": "C"
+        }
+      ]
+    }
+  }
+}

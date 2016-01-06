@@ -1,6 +1,6 @@
 {
   "name": "maplarge-google",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "Google layer for working with maplarge layers",
   "repository": "https://github.com/AppGeo/maplarge",
   "homepage": "https://github.com/AppGeo/maplarge/blob/master/readme.md",
@@ -10,7 +10,8 @@
   "scripts": {
     "build-js": "browserify -s maplarge . > dist/maplarge-google.js",
     "build-min": "uglifyjs dist/maplarge-google.js -mc > dist/maplarge-google.min.js",
-    "build": "npm run build-js && npm run build-min"
+    "build": "npm run build-js && npm run build-min",
+    "test": "node test/"
   },
   "dependencies": {
     "babel-plugin-add-module-exports": "^0.1.2",
@@ -19,6 +20,7 @@
     "babelify": "^7.2.0",
     "create-hash": "^1.1.2",
     "sphericalmercator": "^1.0.4",
+    "tape": "^4.4.0",
     "zoku": "^1.1.1"
   },
   "browserify": {
