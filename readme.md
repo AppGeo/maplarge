@@ -110,36 +110,41 @@ The constructor takes several options, many of them mandatory
 
 ```json
 {
-  styles: [{
-    range: [0, 22],
-    query: [
-      {
-        col: 'ramp',
-        test: 'Contains',
-        value: 'EXIT'
+  "styles": [
+    {
+      "range": [
+        0,
+        22
+      ],
+      "query": [
+        {
+          "col": "ramp",
+          "test": "Contains",
+          "value": "EXIT"
+        }
+      ],
+      "cluster": {
+        "autoIconEnable": "false",
+        "clusterCentroid": "location",
+        "clusterSpacing": 40,
+        "size": 40,
+        "text": {
+          "color": "white",
+          "size": "9",
+          "text": "count",
+          "x": 0,
+          "y": 0
+        },
+        "text2": {
+          "color": "white",
+          "size": "9",
+          "text": "count",
+          "x": 0,
+          "y": 1
+        },
+        "url": "https://google.com/clustermarker.png"
       }
-    ],
-    cluster: {
-      autoIconEnable: 'false',
-      clusterCentroid: 'location',
-      clusterSpacing: 40,
-      size: 40,
-      text: {
-        color: 'white',
-        size: '9',
-        text: 'count',
-        x: 0,
-        y: 0
-      },
-      text2: {
-        color: 'white',
-        size: '9',
-        text: 'count',
-        x: 0,
-        y: 1
-      },
-      url: 'https://google.com/clustermarker.png'
     }
-  }]
+  ]
 }
 ```
