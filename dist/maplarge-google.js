@@ -4,6 +4,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 exports.makeMD5 = makeMD5;
 exports.default = createHash;
 exports.stringify = stringify;
@@ -13,8 +16,6 @@ var _md = require('create-hash/md5');
 var _md2 = _interopRequireDefault(_md);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
 
 var mdCache = new Map();
 function makeMD5(string) {
@@ -108,11 +109,11 @@ module.exports = exports['default'];
 },{}],3:[function(require,module,exports){
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _events = require('events');
 
@@ -130,7 +131,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Poll = (function (_EE$EventEmitter) {
+var Poll = function (_EE$EventEmitter) {
   _inherits(Poll, _EE$EventEmitter);
 
   function Poll(options, frequency) {
@@ -210,7 +211,7 @@ var Poll = (function (_EE$EventEmitter) {
   }]);
 
   return Poll;
-})(_events2.default.EventEmitter);
+}(_events2.default.EventEmitter);
 
 exports.default = Poll;
 module.exports = exports['default'];
@@ -279,6 +280,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = sort;
 
+
 function sort(map) {
   var items = [];
   var spots = [];
@@ -315,11 +317,11 @@ module.exports = exports['default'];
 },{}],7:[function(require,module,exports){
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _google = require('./google');
 
@@ -357,7 +359,7 @@ var equal3Array = function equal3Array(a, b) {
   return true;
 };
 
-var UtfGrid = (function (_google$maps$OverlayV) {
+var UtfGrid = function (_google$maps$OverlayV) {
   _inherits(UtfGrid, _google$maps$OverlayV);
 
   function UtfGrid(url, options) {
@@ -471,6 +473,7 @@ var UtfGrid = (function (_google$maps$OverlayV) {
   }, {
     key: '_click',
     value: function _click(e) {
+      this._move(e);
       if (this._mouseOn) {
         _google2.default.maps.event.trigger(this, 'click', {
           latLng: e.latLng,
@@ -619,7 +622,7 @@ var UtfGrid = (function (_google$maps$OverlayV) {
   }]);
 
   return UtfGrid;
-})(_google2.default.maps.OverlayView);
+}(_google2.default.maps.OverlayView);
 
 exports.default = UtfGrid;
 module.exports = exports['default'];
@@ -3670,13 +3673,15 @@ ajax.post = function (url, data) {
 },{"./ajax":21}],23:[function(require,module,exports){
 'use strict';
 
-var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; })();
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _google = require('./google');
 
@@ -3720,8 +3725,6 @@ var _processMlData2 = _interopRequireDefault(_processMlData);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -3736,7 +3739,7 @@ var metersPerPixel = function metersPerPixel(lat, z) {
 var blankUrl = 'https://maps.gstatic.com/mapfiles/transparent.png';
 var blankPromise = Promise.resolve(blankUrl);
 
-var Layer = (function (_EE$EventEmitter) {
+var Layer = function (_EE$EventEmitter) {
   _inherits(Layer, _EE$EventEmitter);
 
   function Layer(opts) {
@@ -3786,6 +3789,7 @@ var Layer = (function (_EE$EventEmitter) {
     _this.waitingImages = new Map();
     _this._fullTable = null;
     _this._zooming = false;
+    _this.zoomlisteners = null;
     _this._changeFun = function (e) {
       var first = !_this._fullTable;
       _this._fullTable = e;
@@ -3870,7 +3874,7 @@ var Layer = (function (_EE$EventEmitter) {
         return this.rules.styles;
       }
       if (typeof opt === 'number') {
-        var _ret = (function () {
+        var _ret = function () {
           var zoom = opt;
           var result = _this2.rules.styles.find(function (style) {
             if (zoom >= style.range[0] && zoom <= style.range[1]) {
@@ -3881,7 +3885,7 @@ var Layer = (function (_EE$EventEmitter) {
           return {
             v: result
           };
-        })();
+        }();
 
         if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
       }
@@ -4215,6 +4219,12 @@ var Layer = (function (_EE$EventEmitter) {
     key: 'removeFromMap',
     value: function removeFromMap() {
       this.removeListener('change', this._changeFun);
+      if (this.zoomlisteners) {
+        this.zoomlisteners.map(function (l) {
+          return l.remove();
+        });
+        this.zoomlisteners = null;
+      }
       if (this.watching) {
         this.stopWatching();
       }
@@ -4339,15 +4349,19 @@ var Layer = (function (_EE$EventEmitter) {
       this.map = map;
       this.hashCache = new Map();
       this.cache.clear();
-      _google2.default.maps.event.addListener(map, 'zoom_changed', function () {
+      if (this.zoomlisteners) {
+        this.zoomlisteners.map(function (l) {
+          return l.remove();
+        });
+      }
+      this.zoomlisteners = [_google2.default.maps.event.addListener(map, 'zoom_changed', function () {
         _this9._zooming = true;
         _this9.emit('zoom-started');
-      });
-      _google2.default.maps.event.addListener(map, 'idle', function () {
+      }), _google2.default.maps.event.addListener(map, 'idle', function () {
         _this9._zooming = false;
         _this9._drainReplaceImg();
         _this9.emit('zoom-ended');
-      });
+      })];
       var divs = [];
       if (!this.tileLayer) {
         this.tileLayer = new _google2.default.maps.ImageMapType({
@@ -4426,7 +4440,7 @@ var Layer = (function (_EE$EventEmitter) {
   }]);
 
   return Layer;
-})(_events2.default.EventEmitter);
+}(_events2.default.EventEmitter);
 
 exports.default = Layer;
 module.exports = exports['default'];
