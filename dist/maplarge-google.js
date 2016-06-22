@@ -2978,7 +2978,7 @@ var REJECTED = ['REJECTED'];
 var FULFILLED = ['FULFILLED'];
 var PENDING = ['PENDING'];
 
-module.exports = exports = Promise;
+module.exports = Promise;
 
 function Promise(resolver) {
   if (typeof resolver !== 'function') {
@@ -3132,7 +3132,7 @@ function tryCatch(func, value) {
   return out;
 }
 
-exports.resolve = resolve;
+Promise.resolve = resolve;
 function resolve(value) {
   if (value instanceof this) {
     return value;
@@ -3140,13 +3140,13 @@ function resolve(value) {
   return handlers.resolve(new this(INTERNAL), value);
 }
 
-exports.reject = reject;
+Promise.reject = reject;
 function reject(reason) {
   var promise = new this(INTERNAL);
   return handlers.reject(promise, reason);
 }
 
-exports.all = all;
+Promise.all = all;
 function all(iterable) {
   var self = this;
   if (Object.prototype.toString.call(iterable) !== '[object Array]') {
@@ -3185,7 +3185,7 @@ function all(iterable) {
   }
 }
 
-exports.race = race;
+Promise.race = race;
 function race(iterable) {
   var self = this;
   if (Object.prototype.toString.call(iterable) !== '[object Array]') {
@@ -3513,8 +3513,8 @@ SphericalMercator.prototype.xyz = function(bbox, zoom, tms_style, srs) {
     var x = [ Math.floor(px_ll[0] / this.size), Math.floor((px_ur[0] - 1) / this.size) ];
     var y = [ Math.floor(px_ur[1] / this.size), Math.floor((px_ll[1] - 1) / this.size) ];
     var bounds = {
-        minX: Math.min.apply(Math, x),
-        minY: Math.min.apply(Math, y),
+        minX: Math.min.apply(Math, x) < 0 ? 0 : Math.min.apply(Math, x),
+        minY: Math.min.apply(Math, y) < 0 ? 0 : Math.min.apply(Math, y),
         maxX: Math.max.apply(Math, x),
         maxY: Math.max.apply(Math, y)
     };
@@ -3814,7 +3814,8 @@ var Layer = function (_EE$EventEmitter) {
         return;
       }
       this.hashCache = new Map();
-      if (this._index !== null) {
+
+      if (this._index !== null && this._index < this.map.overlayMapTypes.getLength()) {
         this.map.overlayMapTypes.insertAt(this._index, this.tileLayer);
       } else {
         this.map.overlayMapTypes.push(this.tileLayer);
@@ -4041,7 +4042,7 @@ var Layer = function (_EE$EventEmitter) {
       var radius = metersPerPixel(lat, zoom - 1);
       var reqQuery = {
         col: this.type === 'point' ? 'XY' : this.table,
-        test: 'DWithin:' + ~ ~radius,
+        test: 'DWithin:' + ~~radius,
         value: 'WKT(POLYGON(' + clickBox[0] + ' ' + clickBox[1] /*bl*/ + ',' + clickBox[2] + ' ' + clickBox[1] /*tl*/ + ',' + clickBox[2] + ' ' + clickBox[3] /*tr*/ + ',' + clickBox[0] + ' ' + clickBox[3] /*br*/ + ',' + clickBox[0] + ' ' + clickBox[1] + ')),COL(' + (this.type === 'point' ? 'XY' : this.table) + ')'
       };
       var query = this.getRules(zoom);
