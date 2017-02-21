@@ -21,7 +21,8 @@
     "create-hash": "^1.1.2",
     "sphericalmercator": "^1.0.4",
     "tape": "^4.4.0",
-    "zoku": "^1.1.1"
+    "zoku": "^1.1.1",
+    "lie": "^3.0.4"
   },
   "browserify": {
     "transform": [
