@@ -95,7 +95,7 @@ function functionToString(func) {
   return func.toString().replace(/[\r\t]/g, ' ').split('\n').map(removeComments).join('');
 }
 
-},{"create-hash/md5":12}],2:[function(require,module,exports){
+},{"create-hash/md5":13}],2:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -107,6 +107,83 @@ module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _google = require('./google');
+
+var _google2 = _interopRequireDefault(_google);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ImageMap = function () {
+  function ImageMap(parent) {
+    _classCallCheck(this, ImageMap);
+
+    this.minZoom = parent.minZoom;
+    this.maxZoom = parent.maxZoom;
+    this.name = parent.name;
+    this.tileSize = new _google2.default.maps.Size(256, 256);
+    this._zindex = parent._zindex;
+    this.parent = parent;
+    this.divs = [];
+  }
+
+  _createClass(ImageMap, [{
+    key: 'getTileUrl',
+    value: function getTileUrl() {
+      return 'https://maps.gstatic.com/mapfiles/transparent.png';
+    }
+  }, {
+    key: 'releaseTile',
+    value: function releaseTile(div) {
+      this.parent.divCache.delete(div);
+      this.parent.waitingImages.delete(div);
+      if (div.firstChild) {
+        div.firstChild.style.visibility = 'hidden';
+      }
+      this.divs.push(div);
+    }
+  }, {
+    key: 'getTile',
+    value: function getTile(coord, zoom, doc) {
+      var _this = this;
+
+      var out;
+      if (this.divs.length) {
+        out = this.divs.pop();
+      } else {
+        out = doc.createElement('div');
+      }
+      out.style.width = '256px';
+      out.style.height = '256px';
+      this.parent.divCache.set(out, {
+        coord: coord,
+        zoom: zoom
+      });
+      this.parent.getTileUrl(zoom, coord.x, coord.y).then(function (url) {
+        if (_this.parent.replaceImg(url, out) && _this.parent.utfGrid) {
+          _this.parent.utfGrid._loadTile(zoom, coord.x, coord.y);
+        }
+      });
+      return out;
+    }
+  }]);
+
+  return ImageMap;
+}();
+
+exports.default = ImageMap;
+module.exports = exports['default'];
+
+},{"./google":2}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -216,7 +293,7 @@ var Poll = function (_EE$EventEmitter) {
 exports.default = Poll;
 module.exports = exports['default'];
 
-},{"events":13,"zoku":22}],4:[function(require,module,exports){
+},{"events":14,"zoku":23}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -241,7 +318,7 @@ function processMlData(fields, data) {
 }
 module.exports = exports['default'];
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -272,7 +349,7 @@ exports.default = function (url, div) {
 
 module.exports = exports['default'];
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -314,7 +391,7 @@ function sort(map) {
 }
 module.exports = exports['default'];
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -627,7 +704,7 @@ var UtfGrid = function (_google$maps$OverlayV) {
 exports.default = UtfGrid;
 module.exports = exports['default'];
 
-},{"./google":2,"querystring":19,"zoku":22}],8:[function(require,module,exports){
+},{"./google":2,"querystring":20,"zoku":23}],9:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -753,7 +830,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 (function (global){
 /*!
  * The buffer module from node.js, for the browser.
@@ -2305,14 +2382,14 @@ function blitBuffer (src, dst, offset, length) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":8,"ieee754":14,"isarray":10}],10:[function(require,module,exports){
+},{"base64-js":9,"ieee754":15,"isarray":11}],11:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 var intSize = 4;
@@ -2349,7 +2426,7 @@ function hash(buf, fn, hashSize, bigEndian) {
 }
 exports.hash = hash;
 }).call(this,require("buffer").Buffer)
-},{"buffer":9}],12:[function(require,module,exports){
+},{"buffer":10}],13:[function(require,module,exports){
 'use strict';
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
@@ -2506,7 +2583,7 @@ function bit_rol(num, cnt)
 module.exports = function md5(buf) {
   return helpers.hash(buf, core_md5, 16);
 };
-},{"./helpers":11}],13:[function(require,module,exports){
+},{"./helpers":12}],14:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -2806,7 +2883,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -2892,7 +2969,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 (function (global){
 'use strict';
 var Mutation = global.MutationObserver || global.WebKitMutationObserver;
@@ -2965,7 +3042,7 @@ function immediate(task) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 var immediate = require('immediate');
 
@@ -3220,7 +3297,7 @@ function race(iterable) {
   }
 }
 
-},{"immediate":15}],17:[function(require,module,exports){
+},{"immediate":16}],18:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -3306,7 +3383,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -3393,13 +3470,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":17,"./encode":18}],20:[function(require,module,exports){
+},{"./decode":18,"./encode":19}],21:[function(require,module,exports){
 var SphericalMercator = (function(){
 
 // Closures including constants and other precalculated values.
@@ -3573,7 +3650,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined') {
     module.exports = exports = SphericalMercator;
 }
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 var Promise = require('lie');
 var qs = require('querystring');
@@ -3657,7 +3734,7 @@ function ajax(url, method, body) {
   });
 }
 
-},{"lie":16,"querystring":19}],22:[function(require,module,exports){
+},{"lie":17,"querystring":20}],23:[function(require,module,exports){
 'use strict';
 
 var ajax = require('./ajax');
@@ -3670,7 +3747,7 @@ ajax.post = function (url, data) {
   return ajax(url, 'post', data);
 };
 
-},{"./ajax":21}],23:[function(require,module,exports){
+},{"./ajax":22}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3698,6 +3775,10 @@ var _poll2 = _interopRequireDefault(_poll);
 var _getLayerHash2 = require('./get-layer-hash');
 
 var _getLayerHash3 = _interopRequireDefault(_getLayerHash2);
+
+var _imageMap = require('./image-map');
+
+var _imageMap2 = _interopRequireDefault(_imageMap);
 
 var _zoku = require('zoku');
 
@@ -4363,46 +4444,8 @@ var Layer = function (_EE$EventEmitter) {
         _this9._drainReplaceImg();
         _this9.emit('zoom-ended');
       })];
-      var divs = [];
       if (!this.tileLayer) {
-        this.tileLayer = new _google2.default.maps.ImageMapType({
-          getTileUrl: function getTileUrl() {
-            return 'https://maps.gstatic.com/mapfiles/transparent.png';
-          },
-          tileSize: new _google2.default.maps.Size(256, 256),
-          minZoom: this.minZoom,
-          maxZoom: this.maxZoom,
-          name: this.name
-        });
-        this.tileLayer.getTile = function (coord, zoom, doc) {
-          var out;
-          if (divs.length) {
-            out = divs.pop();
-          } else {
-            out = doc.createElement('div');
-          }
-          out.style.width = '256px';
-          out.style.height = '256px';
-          _this9.divCache.set(out, {
-            coord: coord,
-            zoom: zoom
-          });
-          _this9.getTileUrl(zoom, coord.x, coord.y).then(function (url) {
-            if (_this9.replaceImg(url, out) && _this9.utfGrid) {
-              _this9.utfGrid._loadTile(zoom, coord.x, coord.y);
-            }
-          });
-          return out;
-        };
-        this.tileLayer.releaseTile = function (div) {
-          _this9.divCache.delete(div);
-          _this9.waitingImages.delete(div);
-          if (div.firstChild) {
-            div.firstChild.style.visibility = 'hidden';
-          }
-          divs.push(div);
-        };
-        this.tileLayer._zindex = this._zindex;
+        this.tileLayer = new _imageMap2.default(this);
       }
       this.putIntoOverlayMapTypes();
       this.makeUtf();
@@ -4446,5 +4489,5 @@ var Layer = function (_EE$EventEmitter) {
 exports.default = Layer;
 module.exports = exports['default'];
 
-},{"./get-layer-hash":1,"./google":2,"./poll":3,"./process-ml-data":4,"./replace-img":5,"./sort-layers":6,"./utfgrid":7,"events":13,"sphericalmercator":20,"zoku":22}]},{},[23])(23)
+},{"./get-layer-hash":1,"./google":2,"./image-map":3,"./poll":4,"./process-ml-data":5,"./replace-img":6,"./sort-layers":7,"./utfgrid":8,"events":14,"sphericalmercator":21,"zoku":23}]},{},[24])(24)
 });
