@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 exports.makeMD5 = makeMD5;
 exports.default = createHash;
@@ -214,7 +214,7 @@ var Poll = function (_EE$EventEmitter) {
   function Poll(options, frequency) {
     _classCallCheck(this, Poll);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Poll).call(this));
+    var _this = _possibleConstructorReturn(this, (Poll.__proto__ || Object.getPrototypeOf(Poll)).call(this));
 
     _this.url = 'https://' + options.host + '/Remote/GetActiveTableID';
     _this.opts = {
@@ -414,11 +414,11 @@ var _querystring2 = _interopRequireDefault(_querystring);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var equal3Array = function equal3Array(a, b) {
   if (!b || !a) {
@@ -435,6 +435,121 @@ var equal3Array = function equal3Array(a, b) {
   }
   return true;
 };
+var maps = new WeakMap();
+
+var MapDetails = function () {
+  function MapDetails(map) {
+    _classCallCheck(this, MapDetails);
+
+    this.map = map;
+    this.events = new Map();
+    this._listeners = new Map();
+  }
+
+  _createClass(MapDetails, [{
+    key: 'setEvent',
+    value: function setEvent(eventName, cb, ctx) {
+      var _this = this;
+
+      if (!this.events.has(eventName)) {
+        this.events.set(eventName, []);
+        var listner = this.map.addListener(eventName, function (e) {
+          var events = _this.events.get(eventName);
+          // if (eventName === 'click') {
+          //   console.log(this.events);
+          // }
+          var _iteratorNormalCompletion = true;
+          var _didIteratorError = false;
+          var _iteratorError = undefined;
+
+          try {
+            for (var _iterator = events[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+              var event = _step.value;
+
+              event.cb.call(event.ctx, e);
+            }
+          } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+              }
+            } finally {
+              if (_didIteratorError) {
+                throw _iteratorError;
+              }
+            }
+          }
+        }, this);
+        this._listeners.set(eventName, listner);
+      }
+      var symbol = { eventName: eventName };
+      var newEvent = {
+        cb: cb, ctx: ctx, symbol: symbol
+      };
+      var events = this.events.get(eventName);
+      events.push(newEvent);
+      events.sort(function (a, b) {
+        var za = a.ctx.zindex;
+        var zb = b.ctx.zindex;
+        if (za === zb) {
+          return 0;
+        }
+        if (za < zb) {
+          return 1;
+        }
+        return -1;
+      });
+      this.events.set(eventName, events);
+      var out = {};
+      maps.set(out, symbol);
+      return out;
+    }
+  }, {
+    key: 'removeEvent',
+    value: function removeEvent(_eventKey) {
+      var eventKey = maps.get(_eventKey);
+      if (!eventKey.eventName) {
+        return;
+      }
+      if (!this.events.has(eventKey.eventName) || !this._listeners.has(eventKey.eventName)) {
+        return;
+      }
+      var events = this.events.get(eventKey.eventName);
+      events = events.filter(function (item) {
+        return item.symbol !== eventKey;
+      });
+      if (events.length) {
+        this.events.set(eventKey.eventName, events);
+        return;
+      }
+      this.events.delete(eventKey.eventName);
+      var listener = this._listeners.get(eventKey.eventName);
+      this._listeners.delete(eventKey.eventName);
+      _google2.default.maps.event.removeListener(listener);
+    }
+  }]);
+
+  return MapDetails;
+}();
+
+function addListener(map, eventname, cb, ctx) {
+  var mapDetails = maps.get(map);
+  if (!mapDetails) {
+    mapDetails = new MapDetails(map);
+    maps.set(map, mapDetails);
+  }
+  return mapDetails.setEvent(eventname, cb, ctx);
+}
+function removeListener(map, eventkey) {
+  var mapDetails = maps.get(map);
+  if (!mapDetails) {
+    return;
+  }
+  mapDetails.removeEvent(eventkey);
+}
 
 var UtfGrid = function (_google$maps$OverlayV) {
   _inherits(UtfGrid, _google$maps$OverlayV);
@@ -442,54 +557,55 @@ var UtfGrid = function (_google$maps$OverlayV) {
   function UtfGrid(url, options) {
     _classCallCheck(this, UtfGrid);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UtfGrid).call(this));
+    var _this2 = _possibleConstructorReturn(this, (UtfGrid.__proto__ || Object.getPrototypeOf(UtfGrid)).call(this));
 
     options = options || {};
-    _this.options = {
+    _this2.options = {
       subdomains: '012',
       minZoom: options.minZoom || 0,
       maxZoom: options.maxZoom || 20,
       tileSize: 256,
       pointerCursor: true
     };
-    _this.options.gridWidth = _this.options.tileSize >> 2;
+    _this2.zindex = options.zindex || -Infinity;
+    _this2.options.gridWidth = _this2.options.tileSize >> 2;
     //The thing the mouse is currently on
-    _this._mouseOn = null;
-    _this._url = url;
-    _this._cache = new Map();
-    _this._reqCache = new Map();
-    _this._inProgres = new Set();
-    _this._attached = false;
-    _this._events = [];
+    _this2._mouseOn = null;
+    _this2._url = url;
+    _this2._cache = new Map();
+    _this2._reqCache = new Map();
+    _this2._inProgres = new Set();
+    _this2._attached = false;
+    _this2._events = [];
     var i = 0;
     while (window['lu' + i]) {
       i++;
     }
-    _this._windowKey = 'lu' + i;
-    window[_this._windowKey] = {};
+    _this2._windowKey = 'lu' + i;
+    window[_this2._windowKey] = {};
 
-    _this.draw = function () {
+    _this2.draw = function () {
       // placeholder required by google
     };
 
     var handles = [];
-    var self = _this;
-    _this.on = function (event, handler) {
+    var self = _this2;
+    _this2.on = function (event, handler) {
       var handle = _google2.default.maps.event.addListener(self, event, handler);
       handles.push(handle);
     };
-    _this.off = function () {
+    _this2.off = function () {
       while (handles.length) {
         _google2.default.maps.event.removeListener(handles.pop());
       }
     };
-    return _this;
+    return _this2;
   }
 
   _createClass(UtfGrid, [{
     key: 'onAdd',
     value: function onAdd() {
-      var _this2 = this;
+      var _this3 = this;
 
       var map = this.getMap();
 
@@ -497,14 +613,14 @@ var UtfGrid = function (_google$maps$OverlayV) {
       this._container = map.getDiv();
 
       this._zoomEvent = map.addListener('zoom_changed', function (e) {
-        return _this2.zoomChanged(e);
+        return _this3.zoomChanged(e);
       }, this);
       this.zoomChanged();
     }
   }, {
     key: 'zoomChanged',
     value: function zoomChanged() {
-      var _this3 = this;
+      var _this4 = this;
 
       var zoom = this._map.getZoom();
       if (zoom > this.options.maxZoom || zoom < this.options.minZoom) {
@@ -514,15 +630,20 @@ var UtfGrid = function (_google$maps$OverlayV) {
         return;
       }
       this._attached = true;
-      this._events = [this._map.addListener('mousemove', function (e) {
-        return _this3._move(e);
-      }, this), this._map.addListener('click', function (e) {
-        return _this3._click(e);
-      }, this)];
+      this._events = [addListener(this._map, 'mousemove', function (e) {
+        return _this4._move(e);
+      }, this), addListener(this._map, 'click', function (e) {
+        return _this4._click(e);
+      }, this)
+      // this._map.addListener('mousemove', e => this._move(e), this),
+      // this._map.addListener('click', e => this._click(e), this)
+      ];
     }
   }, {
     key: '_removeHandlers',
     value: function _removeHandlers(all) {
+      var _this5 = this;
+
       if (all && this._zoomEvent) {
         _google2.default.maps.event.removeListener(this._zoomEvent);
         this._zoomEvent = null;
@@ -533,7 +654,7 @@ var UtfGrid = function (_google$maps$OverlayV) {
       }
       this._attached = false;
       this._events.forEach(function (e) {
-        return _google2.default.maps.event.removeListener(e);
+        return removeListener(_this5._map, e);
       });
       this._events = [];
     }
@@ -638,12 +759,9 @@ var UtfGrid = function (_google$maps$OverlayV) {
   }, {
     key: '_loadTile',
     value: function _loadTile(zoom, x, y) {
-      var _this4 = this;
+      var _this6 = this;
 
       var key = zoom + '_' + x + '_' + y;
-      if (this._cache.has(key)) {
-        return;
-      }
       if (this._inProgres.has(key)) {
         return;
       }
@@ -656,16 +774,16 @@ var UtfGrid = function (_google$maps$OverlayV) {
           return;
         }
         var fullUrl = url[0] + '?' + _querystring2.default.stringify(url[1]);
-        if (_this4._reqCache.has(fullUrl)) {
-          return _this4._reqCache.get(fullUrl);
+        if (_this6._reqCache.has(fullUrl)) {
+          return _this6._reqCache.get(fullUrl);
         }
         return (0, _zoku2.default)(fullUrl).then(function (data) {
-          _this4._reqCache.set(fullUrl, data);
+          _this6._reqCache.set(fullUrl, data);
           return data;
         });
       }).then(function (data) {
-        _this4._cache.set(key, data);
-        _this4._inProgres.delete(key);
+        _this6._cache.set(key, data);
+        _this6._inProgres.delete(key);
       });
     }
   }, {
@@ -2643,8 +2761,12 @@ EventEmitter.prototype.emit = function(type) {
       er = arguments[1];
       if (er instanceof Error) {
         throw er; // Unhandled 'error' event
+      } else {
+        // At least give some kind of context to the user
+        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
+        err.context = er;
+        throw err;
       }
-      throw TypeError('Uncaught, unspecified "error" event.');
     }
   }
 
@@ -3161,7 +3283,7 @@ handlers.reject = function (self, error) {
 function getThen(obj) {
   // Make sure we only access the accessor once as required by the spec
   var then = obj && obj.then;
-  if (obj && typeof obj === 'object' && typeof then === 'function') {
+  if (obj && (typeof obj === 'object' || typeof obj === 'function') && typeof then === 'function') {
     return function appyThen() {
       then.apply(obj, arguments);
     };
@@ -3756,8 +3878,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _google = require('./google');
@@ -3826,7 +3946,7 @@ var Layer = function (_EE$EventEmitter) {
   function Layer(opts) {
     _classCallCheck(this, Layer);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Layer).call(this));
+    var _this = _possibleConstructorReturn(this, (Layer.__proto__ || Object.getPrototypeOf(Layer)).call(this));
 
     _this.account = opts.account;
     var table = _this.table = opts.table;
@@ -3871,12 +3991,17 @@ var Layer = function (_EE$EventEmitter) {
     _this._fullTable = null;
     _this._zooming = false;
     _this.zoomlisteners = null;
+    var ready;
+    _this.ready = new Promise(function (yes) {
+      return ready = yes;
+    });
     _this._changeFun = function (e) {
       var first = !_this._fullTable;
       _this._fullTable = e;
       _this._tableName = e;
       _this.emit('fullTable', e);
       _this.refreshTiles(first);
+      ready();
     };
     _this.on('change', _this._changeFun);
     if (_this.refreshRate) {
@@ -3944,8 +4069,6 @@ var Layer = function (_EE$EventEmitter) {
   }, {
     key: '_getRules',
     value: function _getRules(opt) {
-      var _this2 = this;
-
       if (!this.rules) {
         return false;
       }
@@ -3956,20 +4079,14 @@ var Layer = function (_EE$EventEmitter) {
         return this.rules.styles;
       }
       if (typeof opt === 'number') {
-        var _ret = function () {
-          var zoom = opt;
-          var result = _this2.rules.styles.find(function (style) {
-            if (zoom >= style.range[0] && zoom <= style.range[1]) {
-              return true;
-            }
-            return false;
-          });
-          return {
-            v: result
-          };
-        }();
-
-        if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+        var zoom = opt;
+        var result = this.rules.styles.find(function (style) {
+          if (zoom >= style.range[0] && zoom <= style.range[1]) {
+            return true;
+          }
+          return false;
+        });
+        return result;
       }
     }
   }, {
@@ -4033,13 +4150,13 @@ var Layer = function (_EE$EventEmitter) {
   }, {
     key: 'getTileUrl',
     value: function getTileUrl(z, x, y) {
-      var _this3 = this;
+      var _this2 = this;
 
       if (z < this.minZoom || z > this.maxZoom) {
         return blankPromise;
       }
       return this.getHash(z).then(function (hash) {
-        return 'https://' + _this3.getSubdomain(x, y) + _this3.host + '/Api/ProcessRequest?hash=' + hash + '&uParams=x:' + x + ';y:' + y + ';z:' + z + ';action:tile%2Fgettile';
+        return 'https://' + _this2.getSubdomain(x, y) + _this2.host + '/Api/ProcessRequest?hash=' + hash + '&uParams=x:' + x + ';y:' + y + ';z:' + z + ';action:tile%2Fgettile';
       });
     }
   }, {
@@ -4098,12 +4215,12 @@ var Layer = function (_EE$EventEmitter) {
   }, {
     key: 'getInfo',
     value: function getInfo(lat, lon, zoom) {
-      var _this4 = this;
+      var _this3 = this;
 
       if (!this._fullTable) {
         return new Promise(function (fullfill) {
-          return _this4.on('fullTable', function () {
-            return fullfill(_this4.getInfo(lat, lon, zoom));
+          return _this3.on('fullTable', function () {
+            return fullfill(_this3.getInfo(lat, lon, zoom));
           });
         });
       }
@@ -4161,19 +4278,19 @@ var Layer = function (_EE$EventEmitter) {
   }, {
     key: 'query',
     value: function query(data) {
-      var _this5 = this;
+      var _this4 = this;
 
       var hash = this.getLayerHash(data);
       return this.checkRegistration(data, hash).then(function () {
-        return (0, _zoku2.default)('https://' + _this5.subdomainFromHash(hash) + _this5.host + '/Api/ProcessRequest?hash=' + hash + '&action:table%2Fquery');
+        return (0, _zoku2.default)('https://' + _this4.subdomainFromHash(hash) + _this4.host + '/Api/ProcessRequest?hash=' + hash + '&action:table%2Fquery');
       }).then(function (resp) {
-        return _this5.transposeResp(resp);
+        return _this4.transposeResp(resp);
       });
     }
   }, {
     key: 'updateQuery',
     value: function updateQuery() {
-      var query = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+      var query = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
       this.specialQuery = query;
       return this.refreshTiles();
@@ -4212,7 +4329,7 @@ var Layer = function (_EE$EventEmitter) {
   }, {
     key: 'checkRegistration',
     value: function checkRegistration(json, hash) {
-      var _this6 = this;
+      var _this5 = this;
 
       if (this.knownHashes.has(hash)) {
         return Promise.resolve(true);
@@ -4228,15 +4345,15 @@ var Layer = function (_EE$EventEmitter) {
         if (resp.isCached) {
           return true;
         }
-        return _this6.cacheRequest({
+        return _this5.cacheRequest({
           request: (0, _getLayerHash2.stringify)(json)
         });
       }).then(function (resp) {
-        _this6._verificationCache.delete(hash);
-        _this6.knownHashes.add(hash);
+        _this5._verificationCache.delete(hash);
+        _this5.knownHashes.add(hash);
         return resp;
       }, function (resp) {
-        _this6._verificationCache.delete(hash);
+        _this5._verificationCache.delete(hash);
         throw resp;
       });
       this._verificationCache.set(hash, prom);
@@ -4245,6 +4362,13 @@ var Layer = function (_EE$EventEmitter) {
   }, {
     key: 'getHash',
     value: function getHash(z) {
+      var _this6 = this;
+
+      if (!this._fullTable) {
+        return this.ready.then(function () {
+          return _this6.getHash(z);
+        });
+      }
       if (this.hashCache.has(z)) {
         return Promise.resolve(this.hashCache.get(z));
       }
@@ -4275,6 +4399,7 @@ var Layer = function (_EE$EventEmitter) {
           }];
         });
       }, {
+        zindex: this._zindex,
         minZoom: this.minZoom,
         maxZoom: this.maxZoom
       });
@@ -4363,12 +4488,11 @@ var Layer = function (_EE$EventEmitter) {
 
       try {
         for (var _iterator = this.divCache[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var _step$value = _slicedToArray(_step.value, 2);
-
-          var div = _step$value[0];
-          var _step$value$ = _step$value[1];
-          var zoom = _step$value$.zoom;
-          var coord = _step$value$.coord;
+          var _step$value = _slicedToArray(_step.value, 2),
+              div = _step$value[0],
+              _step$value$ = _step$value[1],
+              zoom = _step$value$.zoom,
+              coord = _step$value$.coord;
 
           this.replaceImg(blankUrl, div);
           this.getTileUrl(zoom, coord.x, coord.y).then(replaceThing(div, zoom, coord));
@@ -4397,10 +4521,9 @@ var Layer = function (_EE$EventEmitter) {
 
       try {
         for (var _iterator2 = this.waitingImages[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var _step2$value = _slicedToArray(_step2.value, 2);
-
-          var div = _step2$value[0];
-          var url = _step2$value[1];
+          var _step2$value = _slicedToArray(_step2.value, 2),
+              div = _step2$value[0],
+              url = _step2$value[1];
 
           this.waitingImages.delete(div);
           if (!this.divCache.has(div)) {
