@@ -3893,6 +3893,10 @@ var _poll = require('./poll');
 
 var _poll2 = _interopRequireDefault(_poll);
 
+var _querystring = require('querystring');
+
+var _querystring2 = _interopRequireDefault(_querystring);
+
 var _getLayerHash2 = require('./get-layer-hash');
 
 var _getLayerHash3 = _interopRequireDefault(_getLayerHash2);
@@ -4289,10 +4293,11 @@ var Layer = function (_EE$EventEmitter) {
     value: function query(data) {
       var _this5 = this;
 
-      var hash = this.getLayerHash(data);
-      return this.checkRegistration(data, hash).then(function () {
-        return (0, _zoku2.default)('https://' + _this5.subdomainFromHash(hash) + _this5.host + '/Api/ProcessRequest?hash=' + hash + '&action:table%2Fquery');
-      }).then(function (resp) {
+      var string = _querystring2.default.stringify({
+        request: JSON.stringify(data)
+      });
+      var outUrl = 'https://' + this.host + '/Api/ProcessDirect?' + string;
+      return (0, _zoku2.default)(outUrl).then(function (resp) {
         return _this5.transposeResp(resp);
       });
     }
@@ -4623,5 +4628,5 @@ var Layer = function (_EE$EventEmitter) {
 exports.default = Layer;
 module.exports = exports['default'];
 
-},{"./get-layer-hash":1,"./google":2,"./image-map":3,"./poll":4,"./process-ml-data":5,"./replace-img":6,"./sort-layers":7,"./utfgrid":8,"events":14,"sphericalmercator":21,"zoku":23}]},{},[24])(24)
+},{"./get-layer-hash":1,"./google":2,"./image-map":3,"./poll":4,"./process-ml-data":5,"./replace-img":6,"./sort-layers":7,"./utfgrid":8,"events":14,"querystring":20,"sphericalmercator":21,"zoku":23}]},{},[24])(24)
 });
