@@ -16,7 +16,6 @@
   "dependencies": {
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
-    "babel-plugin-add-module-exports": "^1.0.2",
     "babelify": "^10.0.0",
     "create-hash": "1.1.2",
     "sphericalmercator": "^1.0.4",
@@ -30,9 +29,6 @@
         {
           "presets": [
             "@babel/preset-env"
-          ],
-          "plugins": [
-            "babel-plugin-add-module-exports"
           ]
         }
       ]
