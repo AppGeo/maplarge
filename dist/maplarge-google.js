@@ -1,28 +1,27 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.maplarge = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-'use strict';
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.maplarge = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
 exports.makeMD5 = makeMD5;
-exports.default = createHash;
+exports["default"] = createHash;
 exports.stringify = stringify;
 
-var _md = require('create-hash/md5');
+var _md = _interopRequireDefault(require("create-hash/md5"));
 
-var _md2 = _interopRequireDefault(_md);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var mdCache = new Map();
+
 function makeMD5(string) {
   if (mdCache.has(string)) {
     return mdCache.get(string);
   }
-  var out = (0, _md2.default)(string).toString('hex');
+
+  var out = (0, _md["default"])(string).toString('hex');
   mdCache.set(string, out);
   return out;
 }
@@ -32,62 +31,79 @@ function createHash(object) {
 }
 
 var cache = new Map();
+
 function stringify(thing) {
   if (cache.has(thing)) {
     return cache.get(thing);
   }
+
   var out = _stringify(thing);
+
   cache.set(thing, out);
   return out;
 }
+
 function _stringify(thing) {
-  switch (typeof thing === 'undefined' ? 'undefined' : _typeof(thing)) {
+  switch (_typeof(thing)) {
     case 'boolean':
     case 'number':
     case 'string':
       return JSON.stringify(thing);
+
     case 'undefined':
       return 'null';
+
     case 'object':
       if (!thing) {
         return 'null';
       }
+
       if (Array.isArray(thing)) {
         return '[' + thing.map(stringify).join(',') + ']';
       }
+
       if (thing instanceof Date) {
         return JSON.stringify(thing);
       }
+
       var keys = Object.keys(thing);
+
       if (!keys.length) {
         return '{}';
       }
+
       return keys.sort().reduce(function (acc, key) {
         if (key === 'undefined') {
           return acc;
         }
+
         if (acc === null) {
           acc = '{"';
         } else {
           acc += ',"';
         }
+
         acc += key;
         acc += '":';
         acc += stringify(thing[key]);
         return acc;
       }, null) + '}';
+
     case 'function':
       return functionToString(thing);
+
     default:
-      throw new Error('unknown type ' + (typeof thing === 'undefined' ? 'undefined' : _typeof(thing)));
+      throw new Error('unknown type ' + _typeof(thing));
   }
 }
 
 function removeComments(part) {
   var idx = part.indexOf('//');
+
   if (idx === -1) {
     return part.trim();
   }
+
   return part.slice(0, idx).trim();
 }
 
@@ -95,73 +111,121 @@ function functionToString(func) {
   return func.toString().replace(/[\r\t]/g, ' ').split('\n').map(removeComments).join('');
 }
 
-},{"create-hash/md5":13}],2:[function(require,module,exports){
+},{"create-hash/md5":12}],2:[function(require,module,exports){
 (function (global){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = global.google;
-module.exports = exports['default'];
+exports["default"] = void 0;
+var _default = global.google;
+exports["default"] = _default;
+module.exports = exports.default;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],3:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = void 0;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _google = _interopRequireDefault(require("./google"));
 
-var _google = require('./google');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _google2 = _interopRequireDefault(_google);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ImageMap = function () {
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var ImageMap =
+/*#__PURE__*/
+function () {
   function ImageMap(parent) {
     _classCallCheck(this, ImageMap);
 
     this.minZoom = parent.minZoom;
     this.maxZoom = parent.maxZoom;
     this.name = parent.name;
-    this.tileSize = new _google2.default.maps.Size(256, 256);
+    this.tileSize = new _google["default"].maps.Size(256, 256);
     this._zindex = parent._zindex;
     this.parent = parent;
     this.divs = [];
   }
 
   _createClass(ImageMap, [{
-    key: 'getTileUrl',
+    key: "getTileUrl",
     value: function getTileUrl() {
-      return 'https://maps.gstatic.com/mapfiles/transparent.png';
+      return "https://maps.gstatic.com/mapfiles/transparent.png";
     }
   }, {
-    key: 'releaseTile',
+    key: "destroy",
+    value: function destroy() {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = this.parent.divCache[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var _step$value = _slicedToArray(_step.value, 1),
+              div = _step$value[0];
+
+          this.releaseTile(div);
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      this.divs = [];
+    }
+  }, {
+    key: "releaseTile",
     value: function releaseTile(div) {
-      this.parent.divCache.delete(div);
-      this.parent.waitingImages.delete(div);
+      this.parent.divCache["delete"](div);
+      this.parent.waitingImages["delete"](div);
+
       if (div.firstChild) {
         div.firstChild.style.visibility = 'hidden';
       }
+
       this.divs.push(div);
     }
   }, {
-    key: 'getTile',
+    key: "getTile",
     value: function getTile(coord, zoom, doc) {
       var _this = this;
 
       var out;
+
       if (this.divs.length) {
         out = this.divs.pop();
       } else {
         out = doc.createElement('div');
       }
+
       out.style.width = '256px';
       out.style.height = '256px';
       this.parent.divCache.set(out, {
@@ -180,42 +244,53 @@ var ImageMap = function () {
   return ImageMap;
 }();
 
-exports.default = ImageMap;
-module.exports = exports['default'];
+var _default = ImageMap;
+exports["default"] = _default;
+module.exports = exports.default;
 
 },{"./google":2}],4:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = void 0;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _events = _interopRequireDefault(require("events"));
 
-var _events = require('events');
+var _zoku = _interopRequireDefault(require("zoku"));
 
-var _events2 = _interopRequireDefault(_events);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _zoku = require('zoku');
-
-var _zoku2 = _interopRequireDefault(_zoku);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var Poll = function (_EE$EventEmitter) {
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var Poll =
+/*#__PURE__*/
+function (_EE$EventEmitter) {
   _inherits(Poll, _EE$EventEmitter);
 
   function Poll(options, frequency) {
+    var _this;
+
     _classCallCheck(this, Poll);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Poll).call(this));
-
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Poll).call(this));
     _this.url = 'https://' + options.host + '/Remote/GetActiveTableID';
     _this.opts = {
       shortTableId: options.account + '/' + options.table
@@ -225,81 +300,97 @@ var Poll = function (_EE$EventEmitter) {
     _this.interval = frequency * 1000;
     _this.timeout = void 0;
     _this.aborted = false;
+
     _this.checkTable();
+
     return _this;
   }
 
   _createClass(Poll, [{
-    key: 'checkTable',
+    key: "checkTable",
     value: function checkTable() {
       var self = this;
-      return (0, _zoku2.default)(this.url, this.opts).then(function (resp) {
+      return (0, _zoku["default"])(this.url, this.opts).then(function (resp) {
         if (self.aborted) {
           return false;
         }
+
         if (!resp) {
           throw new Error('no response');
         }
+
         if (Array.isArray(resp.errors) && resp.errors.length) {
           throw new Error(resp.errors.join());
         }
+
         if (!resp.success || !resp.table) {
           throw new Error('invalid response');
         }
+
         return resp.table;
       }).then(function (table) {
         if (self.aborted) {
           return;
         }
+
         var oldTable = self.table;
+
         if (self.table !== table) {
           self.table = table;
+
           if (!oldTable) {
             self.emit('ready');
           }
+
           self.emit('change', table);
         }
+
         self.timeout = setTimeout(function () {
           self.timeout = void 0;
+
           if (self.aborted) {
             return;
           }
+
           self.checkTable();
-        }, self.interval);
-        // if (typeof self.timeout.unref === 'function') {
+        }, self.interval); // if (typeof self.timeout.unref === 'function') {
         //   self.timeout.unref();
         // }
-      }).catch(function (e) {
+      })["catch"](function (e) {
         if (self.timeout) {
           clearTimeout(self.timeout);
         }
+
         self.emit('error', e);
       });
     }
   }, {
-    key: 'abort',
+    key: "abort",
     value: function abort() {
       this.aborted = true;
+
       if (this.timeout) {
         clearTimeout(this.timeout);
       }
+
       this.removeAllListeners();
     }
   }]);
 
   return Poll;
-}(_events2.default.EventEmitter);
+}(_events["default"].EventEmitter);
 
-exports.default = Poll;
-module.exports = exports['default'];
+exports["default"] = Poll;
+module.exports = exports.default;
 
-},{"events":14,"zoku":23}],5:[function(require,module,exports){
-'use strict';
+},{"events":13,"zoku":23}],5:[function(require,module,exports){
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = processMlData;
+exports["default"] = processMlData;
+
 function processMlData(fields, data) {
   if (!data) {
     return null;
@@ -316,30 +407,37 @@ function processMlData(fields, data) {
 
   return out;
 }
-module.exports = exports['default'];
+
+module.exports = exports.default;
 
 },{}],6:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var blankUrl = 'https://maps.gstatic.com/mapfiles/transparent.png';
+exports["default"] = void 0;
+var blankUrl = "https://maps.gstatic.com/mapfiles/transparent.png";
 
-exports.default = function (url, div) {
+var _default = function _default(url, div) {
   if (url === blankUrl) {
     while (div.firstChild) {
       div.removeChild(div.firstChild);
     }
+
     return;
   }
+
   var img = div.firstChild;
+
   if (img && img.src === url) {
     return;
   }
+
   var newImage = document.createElement('img');
   newImage.src = url;
   newImage.alt = '';
+
   if (!img) {
     div.appendChild(newImage);
   } else {
@@ -347,16 +445,18 @@ exports.default = function (url, div) {
   }
 };
 
-module.exports = exports['default'];
+exports["default"] = _default;
+module.exports = exports.default;
 
 },{}],7:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = sort;
-
+exports["default"] = void 0;
+var _default = sort;
+exports["default"] = _default;
 
 function sort(map) {
   var items = [];
@@ -365,18 +465,22 @@ function sort(map) {
     if (!item) {
       return;
     }
+
     if (typeof item._zindex !== 'number') {
       return;
     }
+
     items.push({
       item: item,
       cur: index
     });
     spots.push(index);
   });
+
   if (items.length <= 1) {
     return;
   }
+
   items.sort(function (a, b) {
     return a.item._zindex - b.item._zindex;
   });
@@ -389,55 +493,68 @@ function sort(map) {
     map.overlayMapTypes.setAt(item.next, item.item);
   });
 }
-module.exports = exports['default'];
+
+module.exports = exports.default;
 
 },{}],8:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = void 0;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _google = _interopRequireDefault(require("./google"));
 
-var _google = require('./google');
+var _zoku = _interopRequireDefault(require("zoku"));
 
-var _google2 = _interopRequireDefault(_google);
+var _querystring = _interopRequireDefault(require("querystring"));
 
-var _zoku = require('zoku');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _zoku2 = _interopRequireDefault(_zoku);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-var _querystring = require('querystring');
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-var _querystring2 = _interopRequireDefault(_querystring);
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var equal3Array = function equal3Array(a, b) {
   if (!b || !a) {
     return false;
   }
+
   if (a[0] !== b[0]) {
     return false;
   }
+
   if (a[1] !== b[1]) {
     return false;
   }
+
   if (a[2] !== b[2]) {
     return false;
   }
+
   return true;
 };
+
 var maps = new WeakMap();
 
-var MapDetails = function () {
+var MapDetails =
+/*#__PURE__*/
+function () {
   function MapDetails(map) {
     _classCallCheck(this, MapDetails);
 
@@ -447,17 +564,18 @@ var MapDetails = function () {
   }
 
   _createClass(MapDetails, [{
-    key: 'setEvent',
+    key: "setEvent",
     value: function setEvent(eventName, cb, ctx) {
       var _this = this;
 
       if (!this.events.has(eventName)) {
         this.events.set(eventName, []);
         var listner = this.map.addListener(eventName, function (e) {
-          var events = _this.events.get(eventName);
-          // if (eventName === 'click') {
+          var events = _this.events.get(eventName); // if (eventName === 'click') {
           //   console.log(this.events);
           // }
+
+
           var _iteratorNormalCompletion = true;
           var _didIteratorError = false;
           var _iteratorError = undefined;
@@ -465,7 +583,6 @@ var MapDetails = function () {
           try {
             for (var _iterator = events[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
               var event = _step.value;
-
               event.cb.call(event.ctx, e);
             }
           } catch (err) {
@@ -473,8 +590,8 @@ var MapDetails = function () {
             _iteratorError = err;
           } finally {
             try {
-              if (!_iteratorNormalCompletion && _iterator.return) {
-                _iterator.return();
+              if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                _iterator["return"]();
               }
             } finally {
               if (_didIteratorError) {
@@ -483,23 +600,32 @@ var MapDetails = function () {
             }
           }
         }, this);
+
         this._listeners.set(eventName, listner);
       }
-      var symbol = { eventName: eventName };
+
+      var symbol = {
+        eventName: eventName
+      };
       var newEvent = {
-        cb: cb, ctx: ctx, symbol: symbol
+        cb: cb,
+        ctx: ctx,
+        symbol: symbol
       };
       var events = this.events.get(eventName);
       events.push(newEvent);
       events.sort(function (a, b) {
         var za = a.ctx.zindex;
         var zb = b.ctx.zindex;
+
         if (za === zb) {
           return 0;
         }
+
         if (za < zb) {
           return 1;
         }
+
         return -1;
       });
       this.events.set(eventName, events);
@@ -508,27 +634,35 @@ var MapDetails = function () {
       return out;
     }
   }, {
-    key: 'removeEvent',
+    key: "removeEvent",
     value: function removeEvent(_eventKey) {
       var eventKey = maps.get(_eventKey);
+
       if (!eventKey.eventName) {
         return;
       }
+
       if (!this.events.has(eventKey.eventName) || !this._listeners.has(eventKey.eventName)) {
         return;
       }
+
       var events = this.events.get(eventKey.eventName);
       events = events.filter(function (item) {
         return item.symbol !== eventKey;
       });
+
       if (events.length) {
         this.events.set(eventKey.eventName, events);
         return;
       }
-      this.events.delete(eventKey.eventName);
+
+      this.events["delete"](eventKey.eventName);
+
       var listener = this._listeners.get(eventKey.eventName);
-      this._listeners.delete(eventKey.eventName);
-      _google2.default.maps.event.removeListener(listener);
+
+      this._listeners["delete"](eventKey.eventName);
+
+      _google["default"].maps.event.removeListener(listener);
     }
   }]);
 
@@ -537,28 +671,36 @@ var MapDetails = function () {
 
 function addListener(map, eventname, cb, ctx) {
   var mapDetails = maps.get(map);
+
   if (!mapDetails) {
     mapDetails = new MapDetails(map);
     maps.set(map, mapDetails);
   }
+
   return mapDetails.setEvent(eventname, cb, ctx);
 }
+
 function removeListener(map, eventkey) {
   var mapDetails = maps.get(map);
+
   if (!mapDetails) {
     return;
   }
+
   mapDetails.removeEvent(eventkey);
 }
 
-var UtfGrid = function (_google$maps$OverlayV) {
+var UtfGrid =
+/*#__PURE__*/
+function (_google$maps$OverlayV) {
   _inherits(UtfGrid, _google$maps$OverlayV);
 
   function UtfGrid(url, options) {
+    var _this2;
+
     _classCallCheck(this, UtfGrid);
 
-    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(UtfGrid).call(this));
-
+    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(UtfGrid).call(this));
     options = options || {};
     _this2.options = {
       subdomains: '012',
@@ -568,8 +710,8 @@ var UtfGrid = function (_google$maps$OverlayV) {
       pointerCursor: true
     };
     _this2.zindex = options.zindex || -Infinity;
-    _this2.options.gridWidth = _this2.options.tileSize >> 2;
-    //The thing the mouse is currently on
+    _this2.options.gridWidth = _this2.options.tileSize >> 2; //The thing the mouse is currently on
+
     _this2._mouseOn = null;
     _this2._url = url;
     _this2._cache = new Map();
@@ -578,229 +720,305 @@ var UtfGrid = function (_google$maps$OverlayV) {
     _this2._attached = false;
     _this2._events = [];
     var i = 0;
+
     while (window['lu' + i]) {
       i++;
     }
+
     _this2._windowKey = 'lu' + i;
     window[_this2._windowKey] = {};
 
-    _this2.draw = function () {
-      // placeholder required by google
+    _this2.draw = function () {// placeholder required by google
     };
 
     var handles = [];
-    var self = _this2;
+
+    var self = _assertThisInitialized(_this2);
+
     _this2.on = function (event, handler) {
-      var handle = _google2.default.maps.event.addListener(self, event, handler);
+      var handle = _google["default"].maps.event.addListener(self, event, handler);
+
       handles.push(handle);
     };
+
     _this2.off = function () {
       while (handles.length) {
-        _google2.default.maps.event.removeListener(handles.pop());
+        _google["default"].maps.event.removeListener(handles.pop());
       }
     };
+
     return _this2;
   }
 
   _createClass(UtfGrid, [{
-    key: 'onAdd',
+    key: "onAdd",
     value: function onAdd() {
       var _this3 = this;
 
       var map = this.getMap();
-
       this._map = map;
       this._container = map.getDiv();
-
       this._zoomEvent = map.addListener('zoom_changed', function (e) {
         return _this3.zoomChanged(e);
       }, this);
       this.zoomChanged();
     }
   }, {
-    key: 'zoomChanged',
+    key: "zoomChanged",
     value: function zoomChanged() {
       var _this4 = this;
 
       var zoom = this._map.getZoom();
+
       if (zoom > this.options.maxZoom || zoom < this.options.minZoom) {
         return this._removeHandlers();
       }
+
       if (this._attached) {
         return;
       }
+
       this._attached = true;
       this._events = [addListener(this._map, 'mousemove', function (e) {
         return _this4._move(e);
       }, this), addListener(this._map, 'click', function (e) {
         return _this4._click(e);
-      }, this)
-      // this._map.addListener('mousemove', e => this._move(e), this),
+      }, this) // this._map.addListener('mousemove', e => this._move(e), this),
       // this._map.addListener('click', e => this._click(e), this)
       ];
     }
   }, {
-    key: '_removeHandlers',
+    key: "_removeHandlers",
     value: function _removeHandlers(all) {
       var _this5 = this;
 
       if (all && this._zoomEvent) {
-        _google2.default.maps.event.removeListener(this._zoomEvent);
+        _google["default"].maps.event.removeListener(this._zoomEvent);
+
         this._zoomEvent = null;
         this.off();
       }
+
       if (!this._attached) {
         return;
       }
+
       this._attached = false;
+
       this._events.forEach(function (e) {
         return removeListener(_this5._map, e);
       });
+
       this._events = [];
     }
   }, {
-    key: 'onRemove',
+    key: "onRemove",
     value: function onRemove() {
       this._removeHandlers(true);
 
       if (this.options.pointerCursor) {
         this._container.style.cursor = '';
       }
+
       this._cache.clear();
     }
   }, {
-    key: '_click',
+    key: "_click",
     value: function _click(e) {
       this._move(e);
+
       if (this._mouseOn) {
-        _google2.default.maps.event.trigger(this, 'click', {
+        _google["default"].maps.event.trigger(this, 'click', {
           latLng: e.latLng,
           data: this._mouseOn
         });
       }
     }
   }, {
-    key: '_move',
+    key: "_move",
     value: function _move(e) {
-
       var on = this._objectForEvent(e);
+
       var map = this._map;
+
       if (!equal3Array(on.data, this._mouseOn)) {
         if (this._mouseOn) {
-          _google2.default.maps.event.trigger(this, 'mouseout', { latLng: e.latLng, data: this._mouseOn });
-          map.setOptions({ draggableCursor: 'url(//maps.google.com/mapfiles/openhand.cur), move' });
+          _google["default"].maps.event.trigger(this, 'mouseout', {
+            latLng: e.latLng,
+            data: this._mouseOn
+          });
+
+          map.setOptions({
+            draggableCursor: 'url(//maps.google.com/mapfiles/openhand.cur), move'
+          });
         }
+
         if (on.data) {
           // Should really be setting/triggering events on 'on'
           // but google events aren't that smart and so using 'self'
           // and binding 'on' to that event
-          _google2.default.maps.event.trigger(this, 'mouseover', on);
-          map.setOptions({ draggableCursor: 'pointer' });
+          _google["default"].maps.event.trigger(this, 'mouseover', on);
+
+          map.setOptions({
+            draggableCursor: 'pointer'
+          });
         }
 
         this._mouseOn = on.data;
       } else if (on.data) {
-        _google2.default.maps.event.trigger(this, 'mouseover', on);
-        map.setOptions({ draggableCursor: 'pointer' });
+        _google["default"].maps.event.trigger(this, 'mouseover', on);
+
+        map.setOptions({
+          draggableCursor: 'pointer'
+        });
       }
     }
   }, {
-    key: 'reset',
+    key: "reset",
     value: function reset() {
       this._cache.clear();
     }
   }, {
-    key: '_objectForEvent',
+    key: "_objectForEvent",
     value: function _objectForEvent(e) {
       var map = this._map,
           tileSize = this.options.tileSize;
-      var pixelPoint = this._getPixelCoordinates(e.latLng);
 
-      // Get x/y of tile for key
+      var pixelPoint = this._getPixelCoordinates(e.latLng); // Get x/y of tile for key
+
+
       var tileX = Math.floor(pixelPoint.x / tileSize),
-          tileY = Math.floor(pixelPoint.y / tileSize);
+          tileY = Math.floor(pixelPoint.y / tileSize); // Get x/y of grid
 
-      // Get x/y of grid
       var gridX = pixelPoint.x - tileX * tileSize >> 2,
           gridY = pixelPoint.y - tileY * tileSize >> 2;
 
       var gridTile = this._cache.get(map.getZoom() + '_' + tileX + '_' + tileY);
 
       if (!gridTile || !gridTile.data || !gridTile.success) {
-        return { latLng: e.latLng, data: null };
+        return {
+          latLng: e.latLng,
+          data: null
+        };
       }
 
       var result = this._decodeTile(gridX, gridY, gridTile);
 
-      return { latLng: e.latLng, data: result };
+      return {
+        latLng: e.latLng,
+        data: result
+      };
     }
   }, {
-    key: '_getPixelCoordinates',
+    key: "_getPixelCoordinates",
     value: function _getPixelCoordinates(coord) {
       var numTiles = 1 << this._map.getZoom();
-      var projection = this._map.getProjection();
-      //var tilesize = this.options.tileSize;
+
+      var projection = this._map.getProjection(); //var tilesize = this.options.tileSize;
+
 
       var worldCoordinate = projection.fromLatLngToPoint(coord);
-      var pixelCoordinate = new _google2.default.maps.Point(worldCoordinate.x * numTiles, worldCoordinate.y * numTiles);
-
+      var pixelCoordinate = new _google["default"].maps.Point(worldCoordinate.x * numTiles, worldCoordinate.y * numTiles);
       return pixelCoordinate;
     }
   }, {
-    key: '_getTileCoordinates',
+    key: "_getTileCoordinates",
     value: function _getTileCoordinates(coord) {
       var tilesize = this.options.tileSize;
+
       var pixelCoord = this._getPixelCoordinates(coord);
 
-      var tileCoordinate = new _google2.default.maps.Point(Math.floor(pixelCoord.x / tilesize), Math.floor(pixelCoord.y / tilesize));
-
+      var tileCoordinate = new _google["default"].maps.Point(Math.floor(pixelCoord.x / tilesize), Math.floor(pixelCoord.y / tilesize));
       return tileCoordinate;
     }
   }, {
-    key: '_loadTile',
+    key: "_loadTile",
     value: function _loadTile(zoom, x, y) {
       var _this6 = this;
 
-      var key = zoom + '_' + x + '_' + y;
+      var key = "".concat(zoom, "_").concat(x, "_").concat(y);
+
       if (this._cache.has(key)) {
         return;
       }
+
       if (this._inProgres.has(key)) {
         return;
       }
+
       this._inProgres.add(key);
+
       var xTile = this.normalizeCoordinate(x, zoom);
       var yTile = this.normalizeCoordinate(y, zoom);
       var z = Math.floor(zoom);
+
       this._url(z, xTile, yTile).then(function (url) {
         if (!url) {
           return;
         }
-        var fullUrl = url[0] + '?' + _querystring2.default.stringify(url[1]);
+
+        var fullUrl = url[0] + '?' + _querystring["default"].stringify(url[1]);
+
         if (_this6._reqCache.has(fullUrl)) {
           return _this6._reqCache.get(fullUrl);
         }
-        return (0, _zoku2.default)(fullUrl).then(function (data) {
+
+        return (0, _zoku["default"])(fullUrl).then(function (data) {
           _this6._reqCache.set(fullUrl, data);
+
           return data;
         });
       }).then(function (data) {
         _this6._cache.set(key, data);
-        _this6._inProgres.delete(key);
+
+        _this6._inProgres["delete"](key);
       });
     }
   }, {
-    key: '_decodeTile',
+    key: "_decodeTile",
     value: function _decodeTile(gridX, gridY, gridTile) {
-      var gridIndex = gridY * this.options.gridWidth + gridX;
-      var dataIndex = gridTile.data.index[gridIndex];
-      if (dataIndex === -1) {
+      var keys = Object.keys(gridTile.data.data);
+
+      if (!keys.length) {
         return null;
       }
-      return gridTile.data.data[dataIndex] || null;
+
+      var len = gridTile.data.index.length;
+      var gridIndex = gridY * this.options.gridWidth + gridX;
+      var dataIndex = gridTile.data.index[gridIndex];
+
+      if (dataIndex !== -1) {
+        var out = gridTile.data.data[dataIndex];
+
+        if (out) {
+          return out;
+        }
+      } // test to the right, then lower right corner, bottom, bottom left, to the left, top left, and then top
+
+
+      var tests = [1, this.options.gridWidth, -1, -1, -this.options.gridWidth, -this.options.gridWidth, 1, 1];
+
+      for (var _i = 0, _tests = tests; _i < _tests.length; _i++) {
+        var change = _tests[_i];
+        gridIndex += change;
+
+        if (gridIndex > len) {
+          continue;
+        }
+
+        if (gridTile.data.index[gridIndex] !== -1) {
+          var _out = gridTile.data.data[gridTile.data.index[gridIndex]];
+
+          if (_out) {
+            return _out;
+          }
+        }
+      }
+
+      return null;
     }
   }, {
-    key: 'normalizeCoordinate',
+    key: "normalizeCoordinate",
     value: function normalizeCoordinate(coord, zoom) {
       // tiles are on a 4^zoom tile grid
       var maxTiles = Math.sqrt(Math.pow(4, zoom));
@@ -820,10 +1038,10 @@ var UtfGrid = function (_google$maps$OverlayV) {
   }]);
 
   return UtfGrid;
-}(_google2.default.maps.OverlayView);
+}(_google["default"].maps.OverlayView);
 
-exports.default = UtfGrid;
-module.exports = exports['default'];
+exports["default"] = UtfGrid;
+module.exports = exports.default;
 
 },{"./google":2,"querystring":20,"zoku":23}],9:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -952,7 +1170,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
 },{}],10:[function(require,module,exports){
-(function (global){
+(function (global,Buffer){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -2502,15 +2720,8 @@ function blitBuffer (src, dst, offset, length) {
   return i
 }
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":9,"ieee754":15,"isarray":11}],11:[function(require,module,exports){
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-},{}],12:[function(require,module,exports){
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
+},{"base64-js":9,"buffer":10,"ieee754":14,"isarray":16}],11:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 var intSize = 4;
@@ -2547,7 +2758,7 @@ function hash(buf, fn, hashSize, bigEndian) {
 }
 exports.hash = hash;
 }).call(this,require("buffer").Buffer)
-},{"buffer":10}],13:[function(require,module,exports){
+},{"buffer":10}],12:[function(require,module,exports){
 'use strict';
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
@@ -2704,7 +2915,7 @@ function bit_rol(num, cnt)
 module.exports = function md5(buf) {
   return helpers.hash(buf, core_md5, 16);
 };
-},{"./helpers":12}],14:[function(require,module,exports){
+},{"./helpers":11}],13:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -2764,8 +2975,12 @@ EventEmitter.prototype.emit = function(type) {
       er = arguments[1];
       if (er instanceof Error) {
         throw er; // Unhandled 'error' event
+      } else {
+        // At least give some kind of context to the user
+        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
+        err.context = er;
+        throw err;
       }
-      throw TypeError('Uncaught, unspecified "error" event.');
     }
   }
 
@@ -3004,10 +3219,10 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],15:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
-  var eLen = nBytes * 8 - mLen - 1
+  var eLen = (nBytes * 8) - mLen - 1
   var eMax = (1 << eLen) - 1
   var eBias = eMax >> 1
   var nBits = -7
@@ -3020,12 +3235,12 @@ exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   e = s & ((1 << (-nBits)) - 1)
   s >>= (-nBits)
   nBits += eLen
-  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+  for (; nBits > 0; e = (e * 256) + buffer[offset + i], i += d, nBits -= 8) {}
 
   m = e & ((1 << (-nBits)) - 1)
   e >>= (-nBits)
   nBits += mLen
-  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+  for (; nBits > 0; m = (m * 256) + buffer[offset + i], i += d, nBits -= 8) {}
 
   if (e === 0) {
     e = 1 - eBias
@@ -3040,7 +3255,7 @@ exports.read = function (buffer, offset, isLE, mLen, nBytes) {
 
 exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   var e, m, c
-  var eLen = nBytes * 8 - mLen - 1
+  var eLen = (nBytes * 8) - mLen - 1
   var eMax = (1 << eLen) - 1
   var eBias = eMax >> 1
   var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
@@ -3073,7 +3288,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
       m = 0
       e = eMax
     } else if (e + eBias >= 1) {
-      m = (value * c - 1) * Math.pow(2, mLen)
+      m = ((value * c) - 1) * Math.pow(2, mLen)
       e = e + eBias
     } else {
       m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
@@ -3090,7 +3305,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],16:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 (function (global){
 'use strict';
 var Mutation = global.MutationObserver || global.WebKitMutationObserver;
@@ -3163,6 +3378,13 @@ function immediate(task) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],16:[function(require,module,exports){
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
 },{}],17:[function(require,module,exports){
 'use strict';
 var immediate = require('immediate');
@@ -3190,6 +3412,26 @@ function Promise(resolver) {
   }
 }
 
+Promise.prototype["finally"] = function (callback) {
+  if (typeof callback !== 'function') {
+    return this;
+  }
+  var p = this.constructor;
+  return this.then(resolve, reject);
+
+  function resolve(value) {
+    function yes () {
+      return value;
+    }
+    return p.resolve(callback()).then(yes);
+  }
+  function reject(reason) {
+    function no () {
+      throw reason;
+    }
+    return p.resolve(callback()).then(no);
+  }
+};
 Promise.prototype["catch"] = function (onRejected) {
   return this.then(null, onRejected);
 };
@@ -3282,7 +3524,7 @@ handlers.reject = function (self, error) {
 function getThen(obj) {
   // Make sure we only access the accessor once as required by the spec
   var then = obj && obj.then;
-  if (obj && typeof obj === 'object' && typeof then === 'function') {
+  if (obj && (typeof obj === 'object' || typeof obj === 'function') && typeof then === 'function') {
     return function appyThen() {
       then.apply(obj, arguments);
     };
@@ -3418,7 +3660,7 @@ function race(iterable) {
   }
 }
 
-},{"immediate":16}],18:[function(require,module,exports){
+},{"immediate":15}],18:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -3869,94 +4111,93 @@ ajax.post = function (url, data) {
 };
 
 },{"./ajax":22}],24:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = void 0;
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+var _google = _interopRequireDefault(require("./google"));
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _events = _interopRequireDefault(require("events"));
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _poll = _interopRequireDefault(require("./poll"));
 
-var _google = require('./google');
+var _querystring = _interopRequireDefault(require("querystring"));
 
-var _google2 = _interopRequireDefault(_google);
+var _getLayerHash2 = _interopRequireWildcard(require("./get-layer-hash"));
 
-var _events = require('events');
+var _imageMap = _interopRequireDefault(require("./image-map"));
 
-var _events2 = _interopRequireDefault(_events);
+var _zoku = _interopRequireDefault(require("zoku"));
 
-var _poll = require('./poll');
+var _utfgrid = _interopRequireDefault(require("./utfgrid"));
 
-var _poll2 = _interopRequireDefault(_poll);
+var _sphericalmercator = _interopRequireDefault(require("sphericalmercator"));
 
-var _querystring = require('querystring');
+var _replaceImg2 = _interopRequireDefault(require("./replace-img"));
 
-var _querystring2 = _interopRequireDefault(_querystring);
+var _sortLayers = _interopRequireDefault(require("./sort-layers"));
 
-var _getLayerHash2 = require('./get-layer-hash');
+var _processMlData = _interopRequireDefault(require("./process-ml-data"));
 
-var _getLayerHash3 = _interopRequireDefault(_getLayerHash2);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
-var _imageMap = require('./image-map');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _imageMap2 = _interopRequireDefault(_imageMap);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-var _zoku = require('zoku');
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
-var _zoku2 = _interopRequireDefault(_zoku);
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-var _utfgrid = require('./utfgrid');
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-var _utfgrid2 = _interopRequireDefault(_utfgrid);
-
-var _sphericalmercator = require('sphericalmercator');
-
-var _sphericalmercator2 = _interopRequireDefault(_sphericalmercator);
-
-var _replaceImg2 = require('./replace-img');
-
-var _replaceImg3 = _interopRequireDefault(_replaceImg2);
-
-var _sortLayers = require('./sort-layers');
-
-var _sortLayers2 = _interopRequireDefault(_sortLayers);
-
-var _processMlData = require('./process-ml-data');
-
-var _processMlData2 = _interopRequireDefault(_processMlData);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var merc = new _sphericalmercator2.default();
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var merc = new _sphericalmercator["default"]();
 var CIRCUMFERENCE = 6371009;
+
 var metersPerPixel = function metersPerPixel(lat, z) {
   return Math.abs(CIRCUMFERENCE * Math.cos(lat / 180) / Math.pow(2, z + 4));
 };
-var blankUrl = 'https://maps.gstatic.com/mapfiles/transparent.png';
+
+var blankUrl = "https://maps.gstatic.com/mapfiles/transparent.png";
 var blankPromise = Promise.resolve(blankUrl);
 
-var Layer = function (_EE$EventEmitter) {
+var Layer =
+/*#__PURE__*/
+function (_EE$EventEmitter) {
   _inherits(Layer, _EE$EventEmitter);
 
   function Layer(opts) {
+    var _this;
+
     _classCallCheck(this, Layer);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Layer).call(this));
-
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Layer).call(this));
     _this.account = opts.account;
     var table = _this.table = opts.table;
     _this.host = opts.host;
     var type = opts.type;
+
     if (!type) {
       if (table.length > 4 && table.slice(-4) === 'Line') {
         type = 'line';
@@ -3964,10 +4205,13 @@ var Layer = function (_EE$EventEmitter) {
         type = 'point';
       }
     }
+
     var zindex = -1;
+
     if (typeof opts.zindex === 'number') {
       zindex = opts.zindex;
     }
+
     _this._zindex = zindex;
     _this.name = opts.name || 'unk' + Math.random();
     _this.minZoom = opts.minZoom || 0;
@@ -3989,41 +4233,59 @@ var Layer = function (_EE$EventEmitter) {
     _this.limit = 500;
     _this.hashCache = new Map();
     _this.divCache = new Map();
-    _this._tableName = _this.account + '/' + _this.table;
+    _this._tableName = "".concat(_this.account, "/").concat(_this.table);
     _this.specialQuery = [];
     _this.knownHashes = new Set();
     _this.waitingImages = new Map();
     _this._fullTable = null;
     _this._zooming = false;
     _this.zoomlisteners = null;
-    var ready;
-    _this.ready = new Promise(function (yes) {
-      return ready = yes;
-    });
-    _this._changeFun = function (e) {
-      var first = !_this._fullTable;
-      _this._fullTable = e;
-      _this._tableName = e;
-      _this.emit('fullTable', e);
-      _this.refreshTiles(first);
-      ready();
-    };
-    _this.on('change', _this._changeFun);
-    if (_this.refreshRate) {
-      _this.watch();
-    }
+    _this._removed = false;
+
+    _this._getready();
+
     return _this;
   }
 
   _createClass(Layer, [{
-    key: 'putIntoOverlayMapTypes',
+    key: "_getready",
+    value: function _getready() {
+      var _this2 = this;
+
+      var ready;
+      this.ready = new Promise(function (yes) {
+        return ready = yes;
+      });
+
+      this._changeFun = function (e) {
+        var first = !_this2._fullTable;
+        _this2._fullTable = e;
+        _this2._tableName = e;
+
+        _this2.emit('fullTable', e);
+
+        _this2.refreshTiles(first);
+
+        ready();
+      };
+
+      this.on('change', this._changeFun);
+
+      if (this.refreshRate) {
+        this.watch();
+      }
+    }
+  }, {
+    key: "putIntoOverlayMapTypes",
     value: function putIntoOverlayMapTypes() {
       if (!this.map || !this.tileLayer) {
         return;
       }
+
       if (this.map.overlayMapTypes.indexOf(this.tileLayer) > -1) {
         return;
       }
+
       this.hashCache = new Map();
 
       if (this._index !== null && this._index < this.map.overlayMapTypes.getLength()) {
@@ -4032,28 +4294,37 @@ var Layer = function (_EE$EventEmitter) {
         this.map.overlayMapTypes.push(this.tileLayer);
         this._index = this.map.overlayMapTypes.indexOf(this.tileLayer);
       }
-      (0, _sortLayers2.default)(this.map);
+
+      (0, _sortLayers["default"])(this.map);
     }
   }, {
-    key: 'removeFromOverlayMapTypes',
+    key: "removeFromOverlayMapTypes",
     value: function removeFromOverlayMapTypes() {
       if (!this.map || !this.tileLayer) {
         return;
       }
+
       var index = this._index = this.map.overlayMapTypes.indexOf(this.tileLayer);
+
       while (index > -1) {
         this.map.overlayMapTypes.removeAt(index);
         index = this.map.overlayMapTypes.indexOf(this.tileLayer);
       }
+
       this.hashCache = new Map();
+      this.tileLayer.destroy();
+      this.divCache = new Map();
+      this.tileLayer = null;
     }
   }, {
-    key: 'getRules',
+    key: "getRules",
     value: function getRules(opts) {
       var _out = this._getRules(opts);
+
       if (!_out) {
         return _out;
       }
+
       if (Array.isArray(_out)) {
         return _out.map(this.addQuery, this);
       } else {
@@ -4061,7 +4332,7 @@ var Layer = function (_EE$EventEmitter) {
       }
     }
   }, {
-    key: 'addQuery',
+    key: "addQuery",
     value: function addQuery(_out) {
       var out = {};
       Object.keys(_out).forEach(function (key) {
@@ -4072,50 +4343,49 @@ var Layer = function (_EE$EventEmitter) {
       return out;
     }
   }, {
-    key: '_getRules',
+    key: "_getRules",
     value: function _getRules(opt) {
-      var _this2 = this;
-
       if (!this.rules) {
         return false;
       }
+
       if (this.rules.simple) {
         return this.rules;
       }
+
       if (opt === true) {
         return this.rules.styles;
       }
-      if (typeof opt === 'number') {
-        var _ret = function () {
-          var zoom = opt;
-          var result = _this2.rules.styles.find(function (style) {
-            if (zoom >= style.range[0] && zoom <= style.range[1]) {
-              return true;
-            }
-            return false;
-          });
-          return {
-            v: result
-          };
-        }();
 
-        if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+      if (typeof opt === 'number') {
+        var zoom = opt;
+        var result = this.rules.styles.find(function (style) {
+          if (zoom >= style.range[0] && zoom <= style.range[1]) {
+            return true;
+          }
+
+          return false;
+        });
+        return result;
       }
     }
   }, {
-    key: 'getLayerJson',
+    key: "getLayerJson",
     value: function getLayerJson(rules, zoom, q) {
       var query = [];
       rules = rules || this.getRules(zoom);
       var type = this.type;
+
       if (rules.type) {
         type = rules.type;
       }
+
       if (q) {
         query = q;
       } else if (rules.query) {
         query = rules.query;
       }
+
       if (rules.rules) {
         rules = rules.rules;
       }
@@ -4133,71 +4403,82 @@ var Layer = function (_EE$EventEmitter) {
           }
         }
       };
+
       if (rules) {
         out.layer.style.rules = rules;
       }
+
       out.layer.query.where = query;
+
       switch (type) {
         case 'line':
           out.layer.query.select.type = 'geo.line';
           break;
+
         case 'point':
           out.layer.query.select.type = 'geo.dot';
           break;
       }
+
       if (this._sort) {
         out.layer.style.orderBy = this._sort;
       }
+
       return out;
     }
   }, {
-    key: 'getLayerHash',
+    key: "getLayerHash",
     value: function getLayerHash(layerJson) {
       if (this.cache.has(layerJson)) {
         return this.cache.get(layerJson);
       }
-      var hash = (0, _getLayerHash3.default)(layerJson);
+
+      var hash = (0, _getLayerHash2["default"])(layerJson);
       this.cache.set(layerJson, hash);
       return hash;
     }
   }, {
-    key: 'getTileUrl',
+    key: "getTileUrl",
     value: function getTileUrl(z, x, y) {
       var _this3 = this;
 
       if (z < this.minZoom || z > this.maxZoom) {
         return blankPromise;
       }
+
       return this.getHash(z).then(function (hash) {
-        return 'https://' + _this3.getSubdomain(x, y) + _this3.host + '/Api/ProcessRequest?hash=' + hash + '&uParams=x:' + x + ';y:' + y + ';z:' + z + ';action:tile%2Fgettile';
+        return "https://".concat(_this3.getSubdomain(x, y)).concat(_this3.host, "/Api/ProcessRequest?hash=").concat(hash, "&uParams=x:").concat(x, ";y:").concat(y, ";z:").concat(z, ";action:tile%2Fgettile");
       });
     }
   }, {
-    key: 'getSubdomain',
+    key: "getSubdomain",
     value: function getSubdomain(x, y) {
       if (this.subdomains === false) {
         return '';
       }
+
       var rawPoint = x + y;
+
       if (rawPoint < 0) {
         rawPoint = -rawPoint;
       }
+
       return rawPoint % this.subdomains;
     }
   }, {
-    key: 'watch',
+    key: "watch",
     value: function watch() {
       if (this.watching) {
         // already watching..
         return;
       }
+
       var opts = {
         account: this.account,
         host: this.host,
         table: this.table
       };
-
-      var watcher = new _poll2.default(opts, this.refreshRate);
+      var watcher = new _poll["default"](opts, this.refreshRate);
       var self = this;
       watcher.on('change', function (e) {
         self.emit('change', e);
@@ -4205,30 +4486,36 @@ var Layer = function (_EE$EventEmitter) {
       this.watching = watcher;
     }
   }, {
-    key: 'stopWatching',
+    key: "stopWatching",
     value: function stopWatching() {
       var watcher = this.watching;
+
       if (!watcher) {
         throw new Error('no such watcher');
       }
+
       this.watching = null;
       watcher.abort();
     }
   }, {
-    key: 'getClickBox',
+    key: "getClickBox",
     value: function getClickBox(lat, lon, zoom) {
       zoom += 4;
       var numTiles = 1 << zoom;
       var projection = this.map.getProjection();
-      var worldCoordinate = projection.fromLatLngToPoint(new _google2.default.maps.LatLng(lat, lon));
-      var pixelCoord = new _google2.default.maps.Point(worldCoordinate.x * numTiles, worldCoordinate.y * numTiles);
-      var tileCoordinate = new _google2.default.maps.Point(Math.floor(pixelCoord.x / 256), Math.floor(pixelCoord.y / 256));
+      var worldCoordinate = projection.fromLatLngToPoint(new _google["default"].maps.LatLng(lat, lon));
+      var pixelCoord = new _google["default"].maps.Point(worldCoordinate.x * numTiles, worldCoordinate.y * numTiles);
+      var tileCoordinate = new _google["default"].maps.Point(Math.floor(pixelCoord.x / 256), Math.floor(pixelCoord.y / 256));
       return merc.bbox(tileCoordinate.x, tileCoordinate.y, zoom);
     }
   }, {
-    key: 'getInfo',
+    key: "getInfo",
     value: function getInfo(lat, lon, zoom) {
       var _this4 = this;
+
+      if (!this.map) {
+        return Promise.reject(new Error('map not loaded'));
+      }
 
       if (!this._fullTable) {
         return new Promise(function (fullfill) {
@@ -4237,9 +4524,8 @@ var Layer = function (_EE$EventEmitter) {
           });
         });
       }
-      var clickBox = this.getClickBox(lat, lon, zoom);
 
-      // var rec = new google.maps.Rectangle({
+      var clickBox = this.getClickBox(lat, lon, zoom); // var rec = new google.maps.Rectangle({
       //   bounds: new google.maps.LatLngBounds({
       //     lat: clickBox[1],
       //     lng: clickBox[0]
@@ -4253,8 +4539,16 @@ var Layer = function (_EE$EventEmitter) {
       var radius = metersPerPixel(lat, zoom - 1);
       var reqQuery = {
         col: this.type === 'point' ? 'XY' : this.table,
-        test: 'DWithin:' + ~~radius,
-        value: 'WKT(POLYGON(' + clickBox[0] + ' ' + clickBox[1] /*bl*/ + ',' + clickBox[2] + ' ' + clickBox[1] /*tl*/ + ',' + clickBox[2] + ' ' + clickBox[3] /*tr*/ + ',' + clickBox[0] + ' ' + clickBox[3] /*br*/ + ',' + clickBox[0] + ' ' + clickBox[1] + ')),COL(' + (this.type === 'point' ? 'XY' : this.table) + ')'
+        test: "DWithin:".concat(~~radius),
+        value: "WKT(POLYGON(".concat(clickBox[0], " ").concat(clickBox[1]
+        /*bl*/
+        , ",").concat(clickBox[2], " ").concat(clickBox[1]
+        /*tl*/
+        , ",").concat(clickBox[2], " ").concat(clickBox[3]
+        /*tr*/
+        , ",").concat(clickBox[0], " ").concat(clickBox[3]
+        /*br*/
+        , ",").concat(clickBox[0], " ").concat(clickBox[1], ")),COL(").concat(this.type === 'point' ? 'XY' : this.table, ")")
       };
       var query = this.getRules(zoom);
       query = query && query.query || [];
@@ -4273,12 +4567,12 @@ var Layer = function (_EE$EventEmitter) {
       return this.query(data);
     }
   }, {
-    key: 'getFields',
+    key: "getFields",
     value: function getFields(field) {
       var data = {
         action: 'table/query',
         query: {
-          sqlselect: [field + '.count', field],
+          sqlselect: ["".concat(field, ".count"), field],
           groupby: [field],
           start: 0,
           table: this._fullTable,
@@ -4289,92 +4583,110 @@ var Layer = function (_EE$EventEmitter) {
       return this.query(data);
     }
   }, {
-    key: 'query',
+    key: "query",
     value: function query(data) {
       var _this5 = this;
 
-      var string = _querystring2.default.stringify({
+      var string = _querystring["default"].stringify({
         request: JSON.stringify(data)
       });
-      var outUrl = 'https://' + this.host + '/Api/ProcessDirect?' + string;
-      return (0, _zoku2.default)(outUrl).then(function (resp) {
+
+      var outUrl = "https://".concat(this.host, "/Api/ProcessDirect?").concat(string);
+      return (0, _zoku["default"])(outUrl).then(function (resp) {
         return _this5.transposeResp(resp);
       });
     }
   }, {
-    key: 'updateQuery',
+    key: "updateQuery",
     value: function updateQuery() {
-      var query = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-
+      var query = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
       this.specialQuery = query;
       return this.refreshTiles();
     }
   }, {
-    key: 'transposeResp',
+    key: "transposeResp",
     value: function transposeResp(resp) {
       if (!resp.success) {
         if (resp.errors.length) {
           throw resp.errors;
         }
+
         throw new Error('not found');
       }
+
       var data = resp.data.data;
       var keys = Object.keys(data);
       var len = keys.reduce(function (a, b) {
         return Math.min(a, data[b].length);
       }, Infinity);
+
+      if (len === Infinity) {
+        return [];
+      }
+
       var out = new Array(len);
       var i = -1;
       var item, j;
+
       while (++i < len) {
         item = out[i] = {};
         j = -1;
+
         while (++j < keys.length) {
           item[keys[j]] = data[keys[j]][i];
         }
       }
+
       return out;
     }
   }, {
-    key: 'subdomainFromHash',
+    key: "subdomainFromHash",
     value: function subdomainFromHash(hash) {
       return this.subdomains ? parseInt(hash.slice(-8), 16) % this.subdomains : '';
     }
   }, {
-    key: 'checkRegistration',
+    key: "checkRegistration",
     value: function checkRegistration(json, hash) {
       var _this6 = this;
 
       if (this.knownHashes.has(hash)) {
         return Promise.resolve(true);
       }
+
       if (this._verificationCache.has(hash)) {
         return this._verificationCache.get(hash);
       }
-      var url = 'https://' + this.subdomainFromHash(hash) + this.host + '/Api/VerifyRequest';
+
+      var url = "https://".concat(this.subdomainFromHash(hash)).concat(this.host, "/Api/VerifyRequest");
       var opts = {
         hash: hash
       };
-      var prom = (0, _zoku2.default)(url, opts).then(function (resp) {
+      var prom = (0, _zoku["default"])(url, opts).then(function (resp) {
         if (resp.isCached) {
           return true;
         }
+
         return _this6.cacheRequest({
           request: (0, _getLayerHash2.stringify)(json)
         });
       }).then(function (resp) {
-        _this6._verificationCache.delete(hash);
+        _this6._verificationCache["delete"](hash);
+
         _this6.knownHashes.add(hash);
+
         return resp;
       }, function (resp) {
-        _this6._verificationCache.delete(hash);
+        _this6._verificationCache["delete"](hash);
+
         throw resp;
       });
+
       this._verificationCache.set(hash, prom);
+
       return prom;
     }
   }, {
-    key: 'getHash',
+    key: "getHash",
     value: function getHash(z) {
       var _this7 = this;
 
@@ -4383,33 +4695,39 @@ var Layer = function (_EE$EventEmitter) {
           return _this7.getHash(z);
         });
       }
+
       if (this.hashCache.has(z)) {
         return Promise.resolve(this.hashCache.get(z));
       }
+
       var hashCache = this.hashCache;
       var layer = this.getLayerJson(false, z);
       var hash = this.getLayerHash(layer);
+
       if (this.knownHashes.has(hash)) {
         hashCache.set(z, hash);
         return Promise.resolve(hash);
       }
+
       return this.checkRegistration(layer, hash).then(function () {
         hashCache.set(z, hash);
         return hash;
       });
     }
   }, {
-    key: 'getGrid',
+    key: "getGrid",
     value: function getGrid() {
       var _this8 = this;
 
-      return new _utfgrid2.default(function (z, x, y) {
+      return new _utfgrid["default"](function (z, x, y) {
         if (z < _this8.minZoom || z > _this8.maxZoom) {
           return Promise.resolve(false);
         }
+
         return _this8.getHash(z).then(function (hash) {
-          return ['https://' + _this8.getSubdomain(x, y) + _this8.host + '/Api/ProcessRequest', { hash: hash,
-            uParams: 'x:' + x + ';y:' + y + ';z:' + z + ';label:' + _this8.fields.join(',') + ';action:tile/hovergrid'
+          return ["https://".concat(_this8.getSubdomain(x, y)).concat(_this8.host, "/Api/ProcessRequest"), {
+            hash: hash,
+            uParams: "x:".concat(x, ";y:").concat(y, ";z:").concat(z, ";label:").concat(_this8.fields.join(','), ";action:tile/hovergrid")
           }];
         });
       }, {
@@ -4419,33 +4737,37 @@ var Layer = function (_EE$EventEmitter) {
       });
     }
   }, {
-    key: 'getMap',
+    key: "getMap",
     value: function getMap() {
       if (this.map) {
         return this.map;
       }
     }
   }, {
-    key: 'setMap',
+    key: "setMap",
     value: function setMap(map) {
       if (map === this.map) {
         return;
       }
+
       if (map) {
         return this.addTo(map);
       }
+
       this.removeFromMap();
     }
   }, {
-    key: 'removeFromMap',
+    key: "removeFromMap",
     value: function removeFromMap() {
       this.removeListener('change', this._changeFun);
+
       if (this.zoomlisteners) {
         this.zoomlisteners.map(function (l) {
           return l.remove();
         });
         this.zoomlisteners = null;
       }
+
       if (this.watching) {
         this.stopWatching();
       }
@@ -4453,36 +4775,43 @@ var Layer = function (_EE$EventEmitter) {
       if (this.utfGrid) {
         this.utfGrid.setMap(null);
       }
+
       if (this.tileLayer) {
         this.removeFromOverlayMapTypes();
       }
+
       this.cache.clear();
       this.map = null;
+      this._fullTable = null;
+      this._removed = true;
     }
   }, {
-    key: 'refreshTiles',
+    key: "refreshTiles",
     value: function refreshTiles(force) {
       this.hashCache = new Map();
       this.cache.clear();
+
       if (this.tileLayer && this.map) {
         this._replaceImages(force);
       }
     }
   }, {
-    key: 'replaceImg',
+    key: "replaceImg",
     value: function replaceImg(url, div) {
       if (!this.divCache.has(div)) {
         return false;
       }
+
       if (this._zooming) {
         this.waitingImages.set(div, url);
       } else {
-        (0, _replaceImg3.default)(url, div);
+        (0, _replaceImg2["default"])(url, div);
       }
+
       return true;
     }
   }, {
-    key: '_replaceImages',
+    key: "_replaceImages",
     value: function _replaceImages() {
       var _this9 = this;
 
@@ -4493,21 +4822,22 @@ var Layer = function (_EE$EventEmitter) {
           }
         };
       };
+
       if (this.utfGrid) {
         this.utfGrid.reset();
       }
+
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
 
       try {
         for (var _iterator = this.divCache[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var _step$value = _slicedToArray(_step.value, 2);
-
-          var div = _step$value[0];
-          var _step$value$ = _step$value[1];
-          var zoom = _step$value$.zoom;
-          var coord = _step$value$.coord;
+          var _step$value = _slicedToArray(_step.value, 2),
+              div = _step$value[0],
+              _step$value$ = _step$value[1],
+              zoom = _step$value$.zoom,
+              coord = _step$value$.coord;
 
           this.replaceImg(blankUrl, div);
           this.getTileUrl(zoom, coord.x, coord.y).then(replaceThing(div, zoom, coord));
@@ -4517,8 +4847,8 @@ var Layer = function (_EE$EventEmitter) {
         _iteratorError = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
           }
         } finally {
           if (_didIteratorError) {
@@ -4528,7 +4858,7 @@ var Layer = function (_EE$EventEmitter) {
       }
     }
   }, {
-    key: '_drainReplaceImg',
+    key: "_drainReplaceImg",
     value: function _drainReplaceImg() {
       var _iteratorNormalCompletion2 = true;
       var _didIteratorError2 = false;
@@ -4536,24 +4866,25 @@ var Layer = function (_EE$EventEmitter) {
 
       try {
         for (var _iterator2 = this.waitingImages[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var _step2$value = _slicedToArray(_step2.value, 2);
+          var _step2$value = _slicedToArray(_step2.value, 2),
+              div = _step2$value[0],
+              url = _step2$value[1];
 
-          var div = _step2$value[0];
-          var url = _step2$value[1];
+          this.waitingImages["delete"](div);
 
-          this.waitingImages.delete(div);
           if (!this.divCache.has(div)) {
             return false;
           }
-          (0, _replaceImg3.default)(url, div);
+
+          (0, _replaceImg2["default"])(url, div);
         }
       } catch (err) {
         _didIteratorError2 = true;
         _iteratorError2 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return) {
-            _iterator2.return();
+          if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+            _iterator2["return"]();
           }
         } finally {
           if (_didIteratorError2) {
@@ -4563,70 +4894,90 @@ var Layer = function (_EE$EventEmitter) {
       }
     }
   }, {
-    key: 'addTo',
+    key: "addTo",
     value: function addTo(map) {
       var _this10 = this;
 
       this.map = map;
       this.hashCache = new Map();
       this.cache.clear();
+
+      if (this._removed) {
+        this._removed = false;
+
+        this._getready();
+      }
+
       if (this.zoomlisteners) {
         this.zoomlisteners.map(function (l) {
           return l.remove();
         });
       }
-      this.zoomlisteners = [_google2.default.maps.event.addListener(map, 'zoom_changed', function () {
+
+      this.zoomlisteners = [_google["default"].maps.event.addListener(map, 'zoom_changed', function () {
         _this10._zooming = true;
+
         _this10.emit('zoom-started');
-      }), _google2.default.maps.event.addListener(map, 'idle', function () {
+      }), _google["default"].maps.event.addListener(map, 'idle', function () {
         _this10._zooming = false;
+
         _this10._drainReplaceImg();
+
         _this10.emit('zoom-ended');
       })];
+
       if (!this.tileLayer) {
-        this.tileLayer = new _imageMap2.default(this);
+        this.tileLayer = new _imageMap["default"](this);
       }
+
       this.putIntoOverlayMapTypes();
       this.makeUtf();
     }
   }, {
-    key: 'makeUtf',
+    key: "makeUtf",
     value: function makeUtf() {
       var _this11 = this;
 
       if (typeof this.click !== 'function') {
         return;
       }
+
       if (!this.utfGrid) {
         this.utfGrid = this.getGrid();
+
+        if (this.name) {
+          this.utfGrid.name = this.name;
+        }
       }
+
       this.utfGrid.on('click', function (data) {
         _this11.click({
           latLng: data.latLng,
-          data: (0, _processMlData2.default)(_this11.fields, data.data)
+          data: (0, _processMlData["default"])(_this11.fields, data.data)
         });
       });
       this.utfGrid.setMap(this.map);
     }
   }, {
-    key: 'cacheRequest',
+    key: "cacheRequest",
     value: function cacheRequest(data, location) {
       location = location || 'CacheRequest';
-      var baseURL = 'https://' + this.host + '/Api/' + location + '?aInfo=mluser:null;mltoken:null';
-      return (0, _zoku2.default)(baseURL, 'POST', data).then(function (resp) {
+      var baseURL = "https://".concat(this.host, "/Api/").concat(location, "?aInfo=mluser:null;mltoken:null");
+      return (0, _zoku["default"])(baseURL, 'POST', data).then(function (resp) {
         if (!resp.success) {
           throw resp;
         }
+
         return resp;
       });
     }
   }]);
 
   return Layer;
-}(_events2.default.EventEmitter);
+}(_events["default"].EventEmitter);
 
-exports.default = Layer;
-module.exports = exports['default'];
+exports["default"] = Layer;
+module.exports = exports.default;
 
-},{"./get-layer-hash":1,"./google":2,"./image-map":3,"./poll":4,"./process-ml-data":5,"./replace-img":6,"./sort-layers":7,"./utfgrid":8,"events":14,"querystring":20,"sphericalmercator":21,"zoku":23}]},{},[24])(24)
+},{"./get-layer-hash":1,"./google":2,"./image-map":3,"./poll":4,"./process-ml-data":5,"./replace-img":6,"./sort-layers":7,"./utfgrid":8,"events":13,"querystring":20,"sphericalmercator":21,"zoku":23}]},{},[24])(24)
 });

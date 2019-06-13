@@ -1,5 +1,5 @@
 var package = require('../package.json');
-require('babel-register')(package.browserify.transform[0][1]);
+require('@babel/register')(package.browserify.transform[0][1]);
 var test = require('tape');
 var testData = require('./data.json');
 var getHash = require('../lib/get-layer-hash');
