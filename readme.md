@@ -17,7 +17,7 @@ The constructor takes several options, many of them mandatory
 - `account`
 - `table`
 - `host`
-- `type`: line or point (only needed if type can't be inferred from table name, i.e. ending with `Line` or `Point` like `conditionLine`).
+- `type`: `'line'`, `'point'` or `'markerCluster'` (only needed if type can't be inferred from table name, i.e. ending with `Line` or `Point` like `conditionLine`).
 - `subdomains`: number of different subdomains, since the domains are zero indexed this is one more then the max subdomain.
 - `minzoom`: default 0.
 - `maxzoom`: default 20.
@@ -104,4 +104,47 @@ The constructor takes several options, many of them mandatory
     ]
   }
 ]
+```
+
+* a cluster ruleset (pre-unified API - July 2016?)
+
+```json
+{
+  "styles": [
+    {
+      "range": [
+        0,
+        22
+      ],
+      "query": [
+        {
+          "col": "ramp",
+          "test": "Contains",
+          "value": "EXIT"
+        }
+      ],
+      "cluster": {
+        "autoIconEnable": "false",
+        "clusterCentroid": "location",
+        "clusterSpacing": 40,
+        "size": 40,
+        "text": {
+          "color": "white",
+          "size": "9",
+          "text": "count",
+          "x": 0,
+          "y": 0
+        },
+        "text2": {
+          "color": "white",
+          "size": "9",
+          "text": "count",
+          "x": 0,
+          "y": 1
+        },
+        "url": "https://google.com/clustermarker.png"
+      }
+    }
+  ]
+}
 ```
