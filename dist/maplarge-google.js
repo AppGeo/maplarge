@@ -121,7 +121,6 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = global.google;
 exports["default"] = _default;
-module.exports = exports.default;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],3:[function(require,module,exports){
@@ -246,7 +245,6 @@ function () {
 
 var _default = ImageMap;
 exports["default"] = _default;
-module.exports = exports.default;
 
 },{"./google":2}],4:[function(require,module,exports){
 "use strict";
@@ -381,7 +379,6 @@ function (_EE$EventEmitter) {
 }(_events["default"].EventEmitter);
 
 exports["default"] = Poll;
-module.exports = exports.default;
 
 },{"events":13,"zoku":23}],5:[function(require,module,exports){
 "use strict";
@@ -407,8 +404,6 @@ function processMlData(fields, data) {
 
   return out;
 }
-
-module.exports = exports.default;
 
 },{}],6:[function(require,module,exports){
 "use strict";
@@ -446,7 +441,6 @@ var _default = function _default(url, div) {
 };
 
 exports["default"] = _default;
-module.exports = exports.default;
 
 },{}],7:[function(require,module,exports){
 "use strict";
@@ -493,8 +487,6 @@ function sort(map) {
     map.overlayMapTypes.setAt(item.next, item.item);
   });
 }
-
-module.exports = exports.default;
 
 },{}],8:[function(require,module,exports){
 "use strict";
@@ -1041,7 +1033,6 @@ function (_google$maps$OverlayV) {
 }(_google["default"].maps.OverlayView);
 
 exports["default"] = UtfGrid;
-module.exports = exports.default;
 
 },{"./google":2,"querystring":20,"zoku":23}],9:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -4203,6 +4194,8 @@ function (_EE$EventEmitter) {
         type = 'line';
       } else if (table.length > 5 && table.slice(-5) === 'Point') {
         type = 'point';
+      } else if (table.length > 4 && table.slice(-4) === 'Poly') {
+        type = 'poly';
       }
     }
 
@@ -4417,6 +4410,10 @@ function (_EE$EventEmitter) {
 
         case 'point':
           out.layer.query.select.type = 'geo.dot';
+          break;
+
+        case 'poly':
+          out.layer.query.select.type = 'geo.poly';
           break;
       }
 
@@ -4977,7 +4974,6 @@ function (_EE$EventEmitter) {
 }(_events["default"].EventEmitter);
 
 exports["default"] = Layer;
-module.exports = exports.default;
 
 },{"./get-layer-hash":1,"./google":2,"./image-map":3,"./poll":4,"./process-ml-data":5,"./replace-img":6,"./sort-layers":7,"./utfgrid":8,"events":13,"querystring":20,"sphericalmercator":21,"zoku":23}]},{},[24])(24)
 });
