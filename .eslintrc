@@ -1,11 +1,17 @@
 {
   "env": {
-    "node": true,
     "browser": true,
-    "es6" : true
+    es2022: true
   },
   "ecmaFeatures": {
     "modules": true
+  },
+    extends: [
+    'eslint:recommended',
+    ],
+    parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
   },
   "rules": {
     "indent": [2, 2],

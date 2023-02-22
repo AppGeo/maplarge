@@ -1,11 +1,11 @@
-var package = require('../package.json');
-require('@babel/register')(package.browserify.transform[0][1]);
-var test = require('tape');
-var testData = require('./data.json');
-var getHash = require('../lib/get-layer-hash');
+
+import test from 'tape';
+import testData from './data.json' assert { type: 'json' };;
+import {stringify} from '../lib/get-layer-hash.js'
+
 test('stringify', function (t) {
   t.plan(1);
-  var res = getHash.stringify(testData);
+  var res = stringify(testData);
   try {
     JSON.parse(res);
     t.ok(true, 'works');
