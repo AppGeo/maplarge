@@ -1,6 +1,6 @@
 {
   "name": "maplarge-google",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Google layer for working with maplarge layers",
   "repository": "https://github.com/AppGeo/maplarge",
   "homepage": "https://github.com/AppGeo/maplarge/blob/master/readme.md",
